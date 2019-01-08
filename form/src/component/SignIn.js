@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Input from './input';
+import './input.css'; 
 class SignIn extends Component{
     onChange(e){
         const key = e.target.name;
@@ -10,10 +11,10 @@ class SignIn extends Component{
     }
     render(){
     return(
-        <div>
+        <div className='divStyle'>
             <h1>SignIn</h1>
-            <Input type='email' name='email' onChange={(e)=>this.props.onSignUp(e.target.name,e.target.value)}/>
-            <Input type='password' name='password' onChange={(e)=>this.props.onSignUp(e.target.name,e.target.value)}/>
+            <Input type='email' name='email' onChange={(e)=>this.props.onSignIn(e.target.name,e.target.value)}/>
+            <Input type='password' name='password' onChange={(e)=>this.props.onSignIn(e.target.name,e.target.value)}/>
             <button>submit</button>
         </div>
     );
