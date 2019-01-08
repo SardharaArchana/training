@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import './App.css';
-import SignIn from './body/SignIn';
-import SignUp from './body/SignUp';
+import SignIn from './component/SignIn';
+import SignUp from './component/SignUp';
 
 class App extends Component {
   constructor(){
@@ -17,32 +17,24 @@ class App extends Component {
       form2:{
         email:'',
         password:''
-      }
+      },
+  
     }
-    this.setData=this.setData.bind(this);
-  }
-  setData(key,value,id){
-    if(id===1){
+      }
+  setValue(key,value,id){
     let obj={};
-    obj=this.state.form1;
+    (id===1)? obj=this.state.form1:obj=this.state.form2;
     obj[key]=value;
-    this.setState({form1:obj});   
-    console.log('form 1 obj', this.state.form1);
+    this.setState({obj});   
+
   }
-  else if(id===2){
-    let obj={};
-    obj=this.state.form2;
-    obj[key]=value;
-    this.setState({form2:obj});   
-    console.log('form 2 obj', this.state.form2);
-  }
-}
   render() {
+    console.log('form1:',this.state.form1,'   ','form2:',this.state.form2);
     
     return (
       <div className="App">
-        <SignUp onChange={this.setData}/>
-        <SignIn onChange={this.setData}/>
+        <SignUp onChange={this.setData}  onSignUp={(key,value)=>this.setValue(key,value,1)}/>
+        <SignIn onChange={this.setData}  onSignUp={(key,value)=>this.setValue(key,value,2)}/>
       
       </div>
     );
