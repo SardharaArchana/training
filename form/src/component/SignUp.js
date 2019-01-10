@@ -30,6 +30,9 @@ class SignUp extends Component {
         if (!reg.test(email)) {
             this.setState({ isValidEmail: false });
         }
+        else{
+            this.setState({isValidEmail:true});
+        }
 
     };
 
