@@ -11,7 +11,9 @@ class SignUp extends Component {
             password: '',
             email: '',
             userId: '',
-            isValidEmail: true
+            isValidEmail: true,
+            isUserId: true,
+            isValidPassword: true
         }
     }
     onChangeSignUp(name, value) {
@@ -30,25 +32,72 @@ class SignUp extends Component {
         if (!reg.test(email)) {
             this.setState({ isValidEmail: false });
         }
-        else{
-            this.setState({isValidEmail:true});
+        else {
+            this.setState({ isValidEmail: true });
+        }
+
+    };
+
+    isValidUser(e) {
+        let userId = e.target.value;
+        let reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        if (!reg.test(userId)) {
+            this.setState({ isUserId: false });
+        }
+        else {
+            this.setState({ isUserId: true });
+        }
+
+    };
+    isValidPassword(e) {
+        let password = e.target.value;
+        let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!reg.test(password)) {
+            this.setState({ isValidPassword: false });
+        }
+        else {
+            this.setState({ isValidPassword: true });
         }
 
     };
 
     render() {
-        const {isValidEmail}=this.state;
+        const { isUserId, isValidEmail } = this.state;
 
         return (
 
             <div className='divStyle'>
                 <h1>SignUp</h1>
-                <Input type='text' name='firstName' onChange={(e) => this.onChangeSignUp(e.target.name, e.target.value)} />
-                <Input type='text' name='lastName' onChange={(e) => this.onChangeSignUp(e.target.name, e.target.value)} />
-                <Input type='text' name='userId' onChange={(e) => this.onChangeSignUp(e.target.name, e.target.value)} />
-                <Input type='email' name='email' onBlur={(e) => this.isValidEmail(e)} onChange={(e) => this.onChangeSignUp(e.target.name, e.target.value)} />
-                {isValidEmail? null:<p style={{color:'red'}}>please enter valid email</p>}
-                <Input type='password' name='password' onChange={(e) => this.onChangeSignUp(e.target.name, e.target.value)} />
+                <Input
+                    type='text'
+                    name='firstName'
+                    onChange={(e) => this.onChangeSignUp(e.target.name, e.target.value)}
+                />
+                <Input
+                    type='text'
+                    name='lastName'
+                    onChange={(e) => this.onChangeSignUp(e.target.name, e.target.value)}
+                />
+                <Input
+                    type='text'
+                    name='userId'
+                    onBlur={(e) => this.isValidUser(e)}
+                    onChange={(e) => this.onChangeSignUp(e.target.name, e.target.value)}
+                />
+                {isUserId ? null : <p style={{ color: 'red' }}>your user id have Minimum eight characters, at least one letter and one number</p>}
+                <Input
+                    type='email'
+                    name='email'
+                    onBlur={(e) => this.isValidEmail(e)}
+                    onChange={(e) => this.onChangeSignUp(e.target.name, e.target.value)}
+                />
+                {isValidEmail ? null : <p style={{ color: 'red' }}>please enter valid email</p>}
+                <Input
+                    type='password'
+                    name='password'
+                    onBlur={(e) => this.isValidPassword(e)}
+                    onChange={(e) => this.onChangeSignUp(e.target.name, e.target.value)}
+                />
                 <button onClick={() => this.onClick()}>submit</button>
             </div>
         );
