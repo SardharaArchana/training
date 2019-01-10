@@ -4,36 +4,57 @@ import SignIn from './component/SignIn';
 import SignUp from './component/SignUp';
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super();
-      this.state={
-        form1:{
-          firstName:'',
-          lastName:'',
-          email:'',
-          password:''
-        },
-        form2:{
-          email:'',
-          password:''
-        },
+    this.state = {
+      form: []
+    }
+  }
+
+  setValue(e, userid) {
+    let user = this.state.form.find((user) => { return user.userId === userid }) || '';
+    if (user === '') {
+      this.state.form.push(e);
+      this.setState({ form: this.state.form });
+    } else if (user.userId === userid) {
+      alert('this user ID is already exsist');
+    }
+  }
+
+  checkValue(userid, password) {
+    let ans = this.state.form.filter((user) => { return user.userId === userid });
+    console.log('ans', ans);
+    if (ans.length===0) {
+      alert('not valid user.....plaese signup first');
+    } else {
+      if (ans[0].password === password) {
+        alert('login');
+      } else {
+        alert('invalid password');
       }
+    }
   }
-  setValue(key,value,id){
-    let obj={};
-    (id===1)? obj=this.state.form1:obj=this.state.form2;
-    obj[key]=value;
-    this.setState({obj}); 
-  }
+
   render() {
-    console.log('form1:',this.state.form1,'   ','form2:',this.state.form2); 
-    const right={float:'right', marginRight:'20px'};   
-    const left={float:'left', marginLeft:'20px'};
+
+    console.log('form1:', this.state.form);
+    const right = { float: 'right', marginRight: '20px' };
+    const left = { float: 'left', marginLeft: '20px' };
     return (
       <div>
-       <div style={left}> <SignUp  onSignUp={(key,value)=>this.setValue(key,value,1)}/></div>
-       <div style={right}> <SignIn  onSignIn={(key,value)=>this.setValue(key,value,2)}/></div>
-      
+        <div style={left}>
+          <SignUp
+            onSignUp={(e, userId) => this.setValue(e, userId)}
+
+
+          />
+        </div>
+        <div style={right}>
+          <SignIn
+            onSignIn={(userId, password) => this.checkValue(userId, password)}
+          />
+        </div>
+
       </div>
     );
   }
