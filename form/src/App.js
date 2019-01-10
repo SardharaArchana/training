@@ -24,7 +24,7 @@ class App extends Component {
   checkValue(userid, password) {
     let ans = this.state.form.filter((user) => { return user.userId === userid });
     console.log('ans', ans);
-    if (ans.length===0) {
+    if (ans.length === 0) {
       alert('not valid user.....plaese signup first');
     } else {
       if (ans[0].password === password) {
@@ -32,6 +32,13 @@ class App extends Component {
       } else {
         alert('invalid password');
       }
+    }
+  }
+
+  checkUser(userid) {
+    let ans = this.state.form.filter((user) => { return user.userId === userid });
+    if (!ans.length === 0) {
+      alert('user id exsist');
     }
   }
 
@@ -45,8 +52,7 @@ class App extends Component {
         <div style={left}>
           <SignUp
             onSignUp={(e, userId) => this.setValue(e, userId)}
-
-
+            isUserId={(e) => this.checkUser(e)}
           />
         </div>
         <div style={right}>

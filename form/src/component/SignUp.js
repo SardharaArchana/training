@@ -47,6 +47,7 @@ class SignUp extends Component {
         else {
             this.setState({ isUserId: true });
         }
+        this.props.isUserId(e.target.value);
 
     };
     isValidPassword(e) {
@@ -62,7 +63,7 @@ class SignUp extends Component {
     };
 
     render() {
-        const { isUserId, isValidEmail } = this.state;
+        const { isUserId, isValidEmail, isValidPassword } = this.state;
 
         return (
 
@@ -98,6 +99,7 @@ class SignUp extends Component {
                     onBlur={(e) => this.isValidPassword(e)}
                     onChange={(e) => this.onChangeSignUp(e.target.name, e.target.value)}
                 />
+                {isValidPassword? null:<span style={{color:'red'}}> Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character</span>}
                 <button onClick={() => this.onClick()}>submit</button>
             </div>
         );
