@@ -3,9 +3,6 @@ import { Link } from 'react-router-dom';
 import './pagination.css';
 
 class Pagination extends Component {
-    constructor(props){
-        super(props);
-    }
     onClick(val){
         this.props.onClick(val);
     }

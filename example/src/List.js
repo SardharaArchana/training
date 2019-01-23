@@ -8,9 +8,10 @@ class List extends Component {
     super();
     this.state = {
       userList: [],
-      page: 0
+      loading: true,
+      fetch: false
     }
-    this.onclick=this.onclick.bind(this);
+    this.onclick = this.onclick.bind(this);
   }
   componentDidMount() {
     fetch('https://reqres.in/api/users?page=1')
@@ -20,43 +21,43 @@ class List extends Component {
       .then(res => {
         console.log('res :::', res);
 
-        this.setState({ userList: res.data || [] });
+        this.setState({ userList: res.data || [], loading: false });
       });
   }
-  onclick(val){
+  onclick(val) {
+    this.setState({ fetch: true });
     fetch('https://reqres.in/api/users?page=' + val)
-  .then(res => {
-    return res.json();
-  })
-  .then(res => {
-    console.log('res :::', res);
+      .then(res => {
+        return res.json();
+      })
+      .then(res => {
+        console.log('res :::', res);
 
-    this.setState({ userList: res.data || [] });
-  });
-}
+        this.setState({ userList: res.data || [], fetch: false });
+      });
+  }
   render() {
     return (
       <div >
         <BrowserRouter>
           <div>
-            <h2>User CRUD Application</h2>
-            <ul>
-              <Link to='/list' style={{ display: 'inline' }}>Record List</Link> |
-          <Link to='/list/' style={{ display: 'inline' }}>Add Record</Link>
-            </ul>
-            {this.state.userList.map((u, i) => {
-              return <div key={i}>
-                <div>
-                  <div style={{ display: 'inline-block', width: '25%', height:'40px', border:'solid 0.25px grey' }}>{u.first_name} </div>
-                  <div style={{ display: 'inline-block', width: '25%', height:'40px',border:'solid 0.25px grey' }}>{u.last_name}</div>
-                  <div style={{ display: 'inline-block', width: '15%', height:'40px',border:'solid 0.25px grey' }}><img width='30px' height='30px'style={{verticalAlign:'-webkit-baseline-middle'}} src={u.avatar} alt='avatar'/></div>
-                  <div style={{ display: 'inline-block', width: '25%', height:'40px',border:'solid 0.25px grey' }}>Edit | delete</div>
-                </div>
-              </div>
-            })}
+            {this.state.loading ? <p>Please Wait while we are getting user Details..</p> :
+              <div>
+                {this.state.userList.map((u, i) => {
+                  return <div key={i}>
+                    <div style={{verticalAlign:'-webkit-baseline-middle'}}>
+                      <div style={{ display: 'inline-block', width: '25%', height: '80px', border: 'solid 0.25px grey' }}>{u.first_name} </div>
+                      <div style={{ display: 'inline-block', width: '25%', height: '80px', border: 'solid 0.25px grey' }}>{u.last_name}</div>
+                      <div style={{ display: 'inline-block', width: '15%', height: '80px', border: 'solid 0.25px grey' }}><img width='30px' height='30px' style={{ verticalAlign: '-webkit-baseline-middle' }} src={u.avatar} alt='avatar' /></div>
+                      <div style={{ display: 'inline-block', width: '25%', height: '80px', border: 'solid 0.25px grey' }}>Edit | delete</div>
+                    </div>
+                  </div>
+                })}
 
-            <Route path='/list/:id?' component={()=><Pagination onClick={(e)=>this.onclick(e)}/>}>
-            </Route>
+                <Route path='/list/:id?' component={() => <Pagination onClick={(e) => this.onclick(e)} />}>
+                </Route>
+                <div>{this.state.fetch ? <span>fetching data</span> : null}</div>
+              </div>}
           </div>
         </BrowserRouter>
       </div >

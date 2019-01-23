@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-import { Route, BrowserRouter } from 'react-router-dom';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
 import List from './List';
+import AddUser from './addUser';
+import Header from './header';
 
-const routing=(
-  <div >
+const routing = (
+  <div style={{margin:'40px'}}>
     <BrowserRouter>
-      <Route excat path='/list' component={List} />
+      <div>
+        <Header />
+        <Switch>
+          <Route path='/new' component={AddUser} />
+          <Route path='/list' component={List} />
+        </Switch>
+      </div>
     </BrowserRouter>
   </div>
 )
