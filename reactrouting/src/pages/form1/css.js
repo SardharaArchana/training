@@ -3,8 +3,9 @@ import React from 'react';
 const Css = () => (
     <div>
         <center>
-                <h1>Css</h1>
-         </center>
+            <h1>Css</h1>
+        </center>
+        <b>
             HTML Introduction
 
             What is HTML?
@@ -16,9 +17,9 @@ const Css = () => (
                 HTML elements are represented by tags
                 HTML tags label pieces of content such as "heading", "paragraph", "table", and so on
                 Browsers do not display the HTML tags, but use them to render the content of the page
-       
-                           
-        
+
+        </b>
+
     </div>
 )
 

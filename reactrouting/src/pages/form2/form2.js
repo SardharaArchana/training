@@ -1,24 +1,25 @@
 import React, { Component } from 'react';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import '../header.css';
+import './form2.css';
 import ReactJs from './ReactJs';
-import Form22 from './angular';
 import Navbar from './navbar';
+import Angular from './angular';
 
 class Form2 extends Component {
 
     render() {
         return (
-            <div className='container-fluid' style={{paddingLeft:'0px', paddingRight:'0px'}}>
+            <div className='container-fluid padding-0'>
                 <BrowserRouter>
                     <div>
                         <Navbar />
-                        <div className='container' style={{width:'100%', marginLeft:'0px', marginRight:'0px', maxWidth:'100%'}}>
+                        <div className='container-fluid padding-0'>
                             <div className='row'>
-                                <div className='col-12 '>
+                                <div className='col-12'>
                                     <Switch>
                                         <Route path="/form2/reactjs" component={ReactJs} />
-                                        <Route path="/form2/angular" component={Form22} />
+                                        <Route path="/form2/angular" component={Angular} />
                                     </Switch>
                                 </div>
                             </div>

@@ -8,12 +8,9 @@ import App from './App';
 import NotFound from './Notfound';
 const routing = (
   <div>
-
     <BrowserRouter>
-
       <div>
-        <Header/>
-        <br/><br/>
+        <Header />
         <Switch>
           <Route exact path="/" component={App} />
           <Route path="/form1" component={Form1} />
@@ -22,7 +19,6 @@ const routing = (
         </Switch>
       </div>
     </BrowserRouter>
-    <br/><br/>
     <footer className='border'><center>footer</center></footer>
   </div>
 )

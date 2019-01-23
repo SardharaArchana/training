@@ -4,6 +4,7 @@ import List from '../form1/list';
 import Introduction from './introduction';
 import Courses from './courses';
 import Example from './example';
+import './form2.css';
 
 class ReactJs extends Component {
     render() {
@@ -12,7 +13,7 @@ class ReactJs extends Component {
                 <BrowserRouter>
                     <div className='container-fluid'>
                         <div className='row'>
-                            <div className='col-12 col-md-4 border'>
+                            <div className='col-12 col-md-4 border padding-0'>
                                 <ul>
                                     <Link to="/form2/reactjs/introduction">
                                         <List listName='introduction' />
@@ -25,7 +26,7 @@ class ReactJs extends Component {
                                     </Link>
                                 </ul>
                             </div>
-                            <div className='col-12 col-md-8 border'>
+                            <div className='col-12 col-md-8 border bg'>
                                 <div>
                                     <Switch>
                                         <Route path="/form2/reactjs/introduction" component={Introduction} />

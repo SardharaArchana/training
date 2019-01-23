@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './form2.css';
 import { Route, Link, BrowserRouter, Switch } from 'react-router-dom';
 import List from '../form1/list';
 import Introduction from './introduction';
@@ -12,7 +13,7 @@ class Angular extends Component {
                 <BrowserRouter>
                     <div className='container-fluid'>
                         <div className='row'>
-                            <div className='col-12 col-md-4 border'>
+                            <div className='col-12 col-md-4 border padding-0'>
                                 <ul>
                                     <Link to="/form2/angular/introduction">
                                         <List listName='introduction' />
@@ -25,7 +26,7 @@ class Angular extends Component {
                                     </Link>
                                 </ul>
                             </div>
-                            <div className='col-12 col-md-8 border'>
+                            <div className='col-12 col-md-8 border bg'>
                                 <div>
                                     <Switch>
                                         <Route path="/form2/angular/introduction" component={Introduction} />
