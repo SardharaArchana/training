@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { Link, BrowserRouter, Route } from 'react-router-dom';
+import axios from 'axios';
 
 import Pagination from './pagination';
+import Action from './action';
+import ListHeader from './listHeader';
+import './list.css';
 
 class List extends Component {
   constructor() {
@@ -9,57 +12,56 @@ class List extends Component {
     this.state = {
       userList: [],
       loading: true,
-      fetch: false
+      fetch: false,
+      activePage: 0,
+      totalPage: 0,
     }
     this.onclick = this.onclick.bind(this);
   }
   componentDidMount() {
-    fetch('https://reqres.in/api/users?page=1')
-      .then(res => {
-        return res.json();
+    axios.get('https://reqres.in/api/users?page=1')
+      .then((response) => {
+        console.log('response', response);
+        this.setState({ userList: response.data.data || [], loading: false, activePage: response.data.page, totalPage: response.data.total_pages });
       })
-      .then(res => {
-        console.log('res :::', res);
-
-        this.setState({ userList: res.data || [], loading: false });
+      .catch((error) => {
+        console.log(error);
       });
   }
-  onclick(val) {
+  onclick(val, currentpage) {
     this.setState({ fetch: true });
-    fetch('https://reqres.in/api/users?page=' + val)
+    axios.get('https://reqres.in/api/users?page=' + val)
       .then(res => {
-        return res.json();
+        console.log('response', res);
+        this.setState({ userList: res.data.data || [], fetch: false, activePage: currentpage });
       })
-      .then(res => {
-        console.log('res :::', res);
-
-        this.setState({ userList: res.data || [], fetch: false });
+      .catch((error) => {
+        console.log(error);
       });
   }
   render() {
     return (
       <div >
-        <BrowserRouter>
           <div>
             {this.state.loading ? <p>Please Wait while we are getting user Details..</p> :
               <div>
+                <ListHeader />
                 {this.state.userList.map((u, i) => {
                   return <div key={i}>
-                    <div style={{verticalAlign:'-webkit-baseline-middle'}}>
-                      <div style={{ display: 'inline-block', width: '25%', height: '80px', border: 'solid 0.25px grey' }}>{u.first_name} </div>
-                      <div style={{ display: 'inline-block', width: '25%', height: '80px', border: 'solid 0.25px grey' }}>{u.last_name}</div>
-                      <div style={{ display: 'inline-block', width: '15%', height: '80px', border: 'solid 0.25px grey' }}><img width='30px' height='30px' style={{ verticalAlign: '-webkit-baseline-middle' }} src={u.avatar} alt='avatar' /></div>
-                      <div style={{ display: 'inline-block', width: '25%', height: '80px', border: 'solid 0.25px grey' }}>Edit | delete</div>
+                    <div>
+                      <div className='divStyle'>{u.first_name} </div>
+                      <div className='divStyle'>{u.last_name}</div>
+                      <div className='divStylesmall'><img className='divStyle-img' src={u.avatar} alt='avatar' /></div>
+                      <div className='divStyle'><Action id={u.id} /></div>
                     </div>
                   </div>
                 })}
-
-                <Route path='/list/:id?' component={() => <Pagination onClick={(e) => this.onclick(e)} />}>
-                </Route>
-                <div>{this.state.fetch ? <span>fetching data</span> : null}</div>
+                <div className='inline'>
+                  <Pagination onClick={(e, i) => this.onclick(e, i)} totalpage={this.state.totalPage} activePage={this.state.activePage} />
+                </div>
+                <div className='inline'>{this.state.fetch ? <span> fetching data....</span> : null}</div>
               </div>}
           </div>
-        </BrowserRouter>
       </div >
     );
   }

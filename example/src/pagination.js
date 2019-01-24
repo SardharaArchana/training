@@ -3,16 +3,23 @@ import { Link } from 'react-router-dom';
 import './pagination.css';
 
 class Pagination extends Component {
-    onClick(val){
-        this.props.onClick(val);
+    onClick(val, i) {
+        this.props.onClick(val, i);
+    }
+
+    createButton = () => {
+        let pagination = [];
+        let classname = '';
+        for (let i = 1; i <= this.props.totalpage; i++) {
+            this.props.activePage === i ? classname = 'active' : classname = ''; 
+            pagination.push(<Link to='/list' key={i}>  <button className={classname} value={i} onClick={(e) => this.onClick(e.target.value, i)}>{i}</button></Link>);
+        }
+        return pagination;
     }
     render() {
         return (
             <div>
-                <Link  to='/list/1'><button value='1' onClick={(e) => this.onClick(e.target.value)}>1</button></Link>
-                <Link to='/list/2'><button value='2' onClick={(e) => this.onClick(e.target.value)}>2</button></Link>
-                <Link to='/list/3'><button value='3' onClick={(e) => this.onClick(e.target.value)}>3</button></Link>
-                <Link to='/list/4'><button value='4' onClick={(e) => this.onClick(e.target.value)}>4</button></Link>
+                {this.createButton()}
             </div>
         );
     }
