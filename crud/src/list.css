@@ -1,0 +1,29 @@
+.inline{
+    display: inline-block;
+    margin-inline-end:10px;
+}
+.div{
+    width: 70%;
+    border-right:solid 0.25px rgb(204, 201, 201);
+    border-top:solid 0.25px rgb(204, 201, 201);
+    border-left:solid 0.25px rgb(204, 201, 201);
+
+}
+.divStyleHeader{
+    border-bottom:solid 1.5px rgb(204, 201, 201);
+}
+.divElement{
+    display: inline-block; 
+    width: 20%;
+    height: 30px;
+    padding: 8px;
+    border-left: solid 0.5px rgb(204, 201, 201);
+}
+.divStyle{
+    border-bottom:solid 0.25px rgb(204, 201, 201);
+}
+.divStyle-img{
+    vertical-align: -webkit-baseline-middle;
+    width: 30px;
+    height: 30px;
+}
