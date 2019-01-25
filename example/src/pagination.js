@@ -3,26 +3,27 @@ import { Link } from 'react-router-dom';
 import './pagination.css';
 
 class Pagination extends Component {
-    onClick(val, i) {
-        this.props.onClick(val, i);
-    }
+  onClick(val, i) {
+    this.props.onClick(val, i);
+  }
 
-    createButton = () => {
-        let pagination = [];
-        let classname = '';
-        for (let i = 1; i <= this.props.totalpage; i++) {
-            this.props.activePage === i ? classname = 'active' : classname = ''; 
-            pagination.push(<Link to='/list' key={i}>  <button className={classname} value={i} onClick={(e) => this.onClick(e.target.value, i)}>{i}</button></Link>);
-        }
-        return pagination;
+  createButton = () => {
+    const pagination = [];
+    let classname = '';
+    for (let i = 1; i <= this.props.totalpage; i + 1) {
+      this.props.activePage === i ? classname = 'active' : classname = '';
+      pagination.push(<Link to='/list' key={i}>  <button className={classname} value={i} onClick={e => this.onClick(e.target.value, i)}>{i}</button></Link>);
     }
-    render() {
-        return (
-            <div>
-                {this.createButton()}
-            </div>
-        );
-    }
+    return pagination;
+  }
+
+  render() {
+    return (
+      <div>
+        {this.createButton()}
+      </div>
+    );
+  }
 }
 
 export default Pagination;
