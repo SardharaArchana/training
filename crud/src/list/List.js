@@ -11,8 +11,9 @@ class List extends Component {
 
     super();
     this.state = {
+      userList: [],
       loading: true,
-      fetch: true,
+      fetch: false,
       activePage: 0,
       totalPage: 0,
     };
@@ -28,6 +29,16 @@ class List extends Component {
     });
   }
 
+  async setList(id) {
+    this.setState({fetch:true});
+    let response = await getUserList(id);
+    this.setState({
+      userList: response.data.data,
+      activePage: response.data.page,
+      totalPage: response.data.total_pages, 
+      fetch:false
+    });
+  }
   render() {
     return (
       <div >
@@ -46,11 +57,11 @@ class List extends Component {
                 </div>)}
               </div>
               <div className='inline'>
-              {/* <Pagination/> */}
-                {/* <Pagination
-                    totalpage={this.state.totalPage}
-                    activepage={this.state.activePage}
-                  /> */}
+                <Pagination key={this.state.activePage}
+                  totalpage={this.state.totalPage}
+                  activepage={this.state.activePage}
+                  onClick={(e) => this.setList(e)}
+                />
               </div>
               <div className='inline'>{this.state.fetch ? <span> fetching data....</span> : null}</div>
 

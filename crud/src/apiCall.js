@@ -1,7 +1,7 @@
 import axios from 'axios';
-export const getUserList = () => {
+export const getUserList = (id) => {
   return (
-    axios.get('https://reqres.in/api/users?page=1')
+    axios.get('https://reqres.in/api/users?page='+id)
       .then((response) => {
 
         console.log('response', response);

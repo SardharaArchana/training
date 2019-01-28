@@ -6,8 +6,8 @@ const Header = () => (
   <div>
     <h2>User CRUD Application..</h2>
     <ul>
-      <Link activeclassname='active' className='a' to='/list' >Record List</Link> | &nbsp;
-      <Link activeclassname='active' className='a' to='/new' >Add Record</Link>
+      <Link  className='a' to='/list' >Record List</Link> | &nbsp;
+      <Link  className='a' to='/new' >Add Record</Link>
     </ul>
   </div>
 );

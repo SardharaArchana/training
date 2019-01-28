@@ -48,11 +48,11 @@ class AddUser extends Component {
         <div className='div'>
           <label className='label' >Name:</label>
         </div>
-        <input className='input' placeholder='enter first name' name='name' onChange={e => this.onChange(e.target.name, e.target.value)}></input>
+        <input className='input' placeholder='enter first name' name='name' onChange={e => this.onChange(e.target.name, e.target.value)} ></input>
         <div className='div'>
           <label className='label'>Job:</label>
         </div>
-        <input className='input' placeholder='enter job' name='job' onChange={e => this.onChange(e.target.name, e.target.value)}></input>
+        <input className='input' placeholder='enter job' name='job' onChange={e => this.onChange(e.target.name, e.target.value)} ></input>
         <div className='div'>
           <button className='button' onClick={() => this.onClick()}>{this.state.getData ? 'please wait' : 'Submit'}</button>
           <button className='button' onClick={() => this.cancel()} >Cancel</button>

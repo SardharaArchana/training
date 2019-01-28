@@ -6,9 +6,10 @@ import AddUser from '../src/user/addUser';
 import Header from './list/header/header';
 import EditUser from '../src/user/editUser';
 import DeleteUser from '../src/user/deleteUser';
+import './app.css';
 
 const routing = (
-  <div style={{ margin: '40px' }}>
+  <div className='margin'>
     <BrowserRouter>
       <div>
         <Header />
