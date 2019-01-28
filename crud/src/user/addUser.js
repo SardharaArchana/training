@@ -49,21 +49,21 @@ class AddUser extends Component {
 
   render() {
 
+    const {getData, name,job}=this.state;
+
     return (
       <div className='div'>
         <h4 className='h4'>Add User</h4><br />
         <div className='div'>
           <label className='label' >Name:</label>
         </div>
-        <input className='input' placeholder='enter first name' name='name' onBlur={(e) => this.onBlur(e.target.value)} onChange={e => this.onChange(e.target.name, e.target.value)} ></input>
-        {this.state.empty ? <span>please enter value..</span> : null}
+        <input className='input' placeholder='enter first name' value={name} name='name' onBlur={(e) => this.onBlur(e.target.value)} onChange={e => this.onChange(e.target.name, e.target.value)} ></input>
         <div className='div'>
           <label className='label'>Job:</label>
         </div>
-        <input className='input' placeholder='enter job' name='job' onChange={e => this.onChange(e.target.name, e.target.value)} ></input>
-        {this.state.empty ? <span>please enter value..</span> : null}
+        <input className='input' placeholder='enter job' value={job} name='job' onBlur={(e) => this.onBlur(e.target.value)} onChange={e => this.onChange(e.target.name, e.target.value)} ></input>
         <div className='div'>
-          <button className='button' onClick={() => this.onClick()}>{this.state.getData ? 'please wait' : 'Submit'}</button>
+          <button className='button' onClick={() => this.onClick()}>{getData ? 'please wait' : 'Submit'}</button>
           <button className='button' onClick={() => this.cancel()} >Cancel</button>
         </div>
         {this.state.submit ? <Redirect to='/list' /> : null}
