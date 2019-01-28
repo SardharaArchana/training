@@ -24,8 +24,8 @@ class Action extends Component {
 
     return (
       <div>
-        <Link to={`/list/edit/${this.state.id}`} params={{ id: this.state.id }} >Edit</Link> | &nbsp;
-        <Link to={`/list/delete/${this.state.id}`} params={{ id: this.state.id }} >Delete</Link>
+        <Link className='a-style' to={`/list/edit/${this.state.id}`} params={{ id: this.state.id }} >Edit</Link> | &nbsp;
+        <Link className='a-style' to={`/list/delete/${this.state.id}`} params={{ id: this.state.id }} >Delete</Link>
       </div>
     );
   

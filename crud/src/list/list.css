@@ -3,7 +3,7 @@
     margin-inline-end:10px;
 }
 .divBorder{
-    width: 70%;
+    width: 80%;
     border-right:solid 0.25px rgb(204, 201, 201);
     border-top:solid 0.25px rgb(204, 201, 201);
     border-left:solid 0.25px rgb(204, 201, 201);
@@ -16,7 +16,7 @@
     display: inline-block; 
     width: 20%;
     height: 30px;
-    padding: 8px;
+    padding: 10px;
     border-left: solid 0.5px rgb(204, 201, 201);
 }
 .divStyle{

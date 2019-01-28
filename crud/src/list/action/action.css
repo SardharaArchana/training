@@ -1,8 +1,8 @@
-a{
+.a-style{
+    color: black;
     text-decoration: none;
-    color: rgba(49, 51, 49, 0.533);
     margin-inline-end: 5px;
-}
-a:hover{
+ }
+.a-style:hover{
     color: rgb(86, 87, 88)
 }

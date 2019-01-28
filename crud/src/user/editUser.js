@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { editUser, getUser } from '../apiCall';
+import './addUser.css';
 
 class EditUser extends Component {
 
@@ -62,7 +63,7 @@ class EditUser extends Component {
         </div>
         <input className='input' name='last_name' onChange={e => this.onChange(e.target.name, e.target.value)} value={this.state.user.last_name} placeholder='enter job' ></input>
         <div className='div'>
-          <img src={this.state.user.avatar} alt='avatar' />
+          <img className='img-style' src={this.state.user.avatar} alt='avatar' />
         </div>
         <div className='div'>
           <button className='button' activeclassname='buttonactive' onClick={() => this.onClick()} >{this.state.updated ? 'please wait' : 'Submit'}</button>

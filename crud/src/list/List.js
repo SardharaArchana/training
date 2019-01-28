@@ -30,13 +30,13 @@ class List extends Component {
   }
 
   async setList(id) {
-    this.setState({fetch:true});
+    this.setState({ fetch: true });
     let response = await getUserList(id);
     this.setState({
       userList: response.data.data,
       activePage: response.data.page,
-      totalPage: response.data.total_pages, 
-      fetch:false
+      totalPage: response.data.total_pages,
+      fetch: false
     });
   }
   render() {
@@ -44,6 +44,7 @@ class List extends Component {
       <div >
         <div>
           {this.state.loading ? <p>Please Wait while we are getting user Details..</p>
+
             : <div className=''>
               <div className='divBorder'>
                 <ListHeader />
@@ -56,6 +57,7 @@ class List extends Component {
                   </div>
                 </div>)}
               </div>
+
               <div className='inline'>
                 <Pagination key={this.state.activePage}
                   totalpage={this.state.totalPage}
@@ -65,7 +67,8 @@ class List extends Component {
               </div>
               <div className='inline'>{this.state.fetch ? <span> fetching data....</span> : null}</div>
 
-            </div>}
+            </div>
+          }
         </div>
       </div >
     );

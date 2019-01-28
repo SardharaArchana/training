@@ -3,7 +3,7 @@
     color: rgba(49, 51, 49, 0.533);
     margin-inline-end: 5px;
 }
-a:hover{
+.a:hover{
     color: rgb(86, 87, 88)
 }
 ul{
@@ -13,6 +13,6 @@ ul{
 ul{
     list-style-type: none;
 }
-a:focus{
+.a:focus{
     color: black;
 }

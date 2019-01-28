@@ -26,3 +26,8 @@
     height:30px;
     background-color:rgba(52, 54, 52, 0.4);
 }
+.img-style{
+    width: 100px;
+    height: 100px;
+    margin-inline-start: 10px;
+}
