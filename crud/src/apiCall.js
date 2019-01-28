@@ -24,13 +24,11 @@ export const addUser = (name, job) => {
       .then((response) => {
 
         console.log(response);
-        return response;
 
       })
       .catch((error) => {
 
         console.log(error);
-        return error;
       })
   )
 };
@@ -41,13 +39,11 @@ export const deleteUser = (id) => {
       .then((response) => {
 
         console.log(response);
-        return response;
 
       })
       .catch((error) => {
 
         console.log(error);
-        return error;
       })
   )
 };
@@ -77,13 +73,11 @@ export const editUser = (id,firstname,lastname) => {
       .then((response) => {
 
         console.log(response);
-        return response;
 
       })
       .catch((error) => {
 
         console.log(error);
-        return error;
       })
   )
 };
