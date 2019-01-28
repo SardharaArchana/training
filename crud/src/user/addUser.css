@@ -15,8 +15,9 @@
 .button{
     margin:10px;
     width:auto;
-    padding: 8px;
+    padding: 4px;
     height:30px;
+    border-radius: 4px;
     background-color:rgba(194, 199, 194, 0.4);
 }
 .buttonactive{

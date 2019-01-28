@@ -35,5 +35,5 @@ export default Action;
 
 
 Action.propTypes = {
-  id: PropTypes.object,
+  id: PropTypes.number,
 };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import './addUser.css';
-import axios from 'axios';
+import { addUser } from '../apiCall';
 
 class AddUser extends Component {
 
@@ -14,34 +14,22 @@ class AddUser extends Component {
       job: '',
       getData: false,
     };
-  
+
   }
 
-  onClick() {
+ async onClick() {
 
     this.setState({ getData: true });
-    axios.post('https://reqres.in/api/users', {
-      name: this.state.name,
-      job: this.state.job,
-    })
-      .then((response) => {
+    const { name, job } = this.state;
+    await addUser(name, job);
+    this.setState({ submit: true, getData: false });
 
-        console.log(response);
-        this.setState({ submit: true, getData: false });
-      
-      })
-      .catch((error) => {
-
-        console.log(error);
-      
-      });
-  
   }
 
   cancel() {
 
     this.setState({ submit: true });
-  
+
   }
 
   onChange(name, value) {
@@ -49,7 +37,7 @@ class AddUser extends Component {
     const obj = {};
     obj[name] = value;
     this.setState(obj);
-  
+
   }
 
   render() {
@@ -72,7 +60,7 @@ class AddUser extends Component {
         {this.state.submit ? <Redirect to='/list' /> : null}
       </div>
     );
-  
+
   }
 
 }

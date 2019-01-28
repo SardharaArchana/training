@@ -2,27 +2,28 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './pagination.css';
+import {getUser} from '../../apiCall';
 
 class Pagination extends Component {
 
-  onClick(val, i) {
-
-    this.props.onClick(val, i);
-  
+  onClick(val) {
+    getUser(val);
+    console.log('click');
   }
 
   createButton = () => {
 
     const pagination = [];
     let classname = '';
-    for (let i = 1; i <= this.props.totalpage; i + 1) {
+    for (let i = 1; i <= 4; i ++) {
 
-      this.props.activePage === i ? classname = 'active' : classname = '';
+      // this.props.activepage === i 
+      i===1? classname = 'active' : classname = '';
       pagination.push(<Link to='/list' key={i}>  <button className={classname} value={i} onClick={e => this.onClick(e.target.value, i)}>{i}</button></Link>);
-    
+
     }
     return pagination;
-  
+
   }
 
   render() {
@@ -32,7 +33,7 @@ class Pagination extends Component {
         {this.createButton()}
       </div>
     );
-  
+
   }
 
 }
@@ -41,7 +42,6 @@ export default Pagination;
 
 
 Pagination.propTypes = {
-  totalpage: PropTypes.object,
-  activePage: PropTypes.object,
-  onClick: PropTypes.object,
+  totalpage: PropTypes.number,
+  activepage: PropTypes.number,
 };

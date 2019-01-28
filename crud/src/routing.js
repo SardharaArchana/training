@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
-import List from './List';
-import AddUser from './addUser';
-import Header from './header';
-import EditUser from './editUser';
-import DeleteUser from './deleteUser';
+import List from './list/List';
+import AddUser from '../src/user/addUser';
+import Header from './list/header/header';
+import EditUser from '../src/user/editUser';
+import DeleteUser from '../src/user/deleteUser';
 
 const routing = (
   <div style={{ margin: '40px' }}>

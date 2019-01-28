@@ -2,7 +2,7 @@
     display: inline-block;
     margin-inline-end:10px;
 }
-.div{
+.divBorder{
     width: 70%;
     border-right:solid 0.25px rgb(204, 201, 201);
     border-top:solid 0.25px rgb(204, 201, 201);

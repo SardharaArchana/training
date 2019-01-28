@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import { editUser, getUser } from '../apiCall';
 
 class EditUser extends Component {
 
@@ -17,24 +17,14 @@ class EditUser extends Component {
       submit: false,
       updated: false,
     };
-  
+
   }
 
-  componentDidMount() {
+  async componentDidMount() {
 
-    axios.get(`https://reqres.in/api/users/${this.props.match.params.id}`)
-      .then((response) => {
+    let response = await getUser(this.props.match.params.id);
+    this.setState({ user: response.data.data });
 
-        console.log('re', response.data.data);
-        this.setState({ user: response.data.data });
-      
-      })
-      .catch((error) => {
-
-        console.log(error);
-      
-      });
-  
   }
 
   onChange(name, value) {
@@ -42,41 +32,26 @@ class EditUser extends Component {
     const obj = this.state.user;
     obj[name] = value;
     this.setState({ user: obj });
-  
+
   }
 
-  onClick() {
+  async onClick() {
 
     this.setState({ updated: true });
-    axios.put(`https://reqres.in/api/users${this.props.match.params.id}`, {
-      name: this.state.first_name,
-      job: this.state.last_name,
-    })
-      .then((response) => {
-
-        console.log(response);
-        this.setState({ submit: true, updated: false });
-      
-      })
-      .catch((error) => {
-
-        console.log(error);
-      
-      });
-  
+    await editUser(this.props.match.params.id, this.state.first_name, this.state.last_name);
+    this.setState({ submit: true, updated: false });
   }
 
   cancel() {
 
     this.setState({ submit: true });
-  
+
   }
 
   render() {
 
     return (
       <div>
-        {console.log('edit user prop', this.props.match.params, 'state', this.state)}
         <h4 className='h4'>Edit User</h4><br />
         <div className='div'>
           <label className='label' >Name:</label>
@@ -96,7 +71,7 @@ class EditUser extends Component {
         {this.state.submit ? <Redirect to='/list' /> : null}
       </div>
     );
-  
+
   }
 
 }

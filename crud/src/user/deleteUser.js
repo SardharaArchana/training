@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import { deleteUser } from '../apiCall';
 
 class DeleteUser extends Component {
 
@@ -12,36 +12,25 @@ class DeleteUser extends Component {
       cancel: false,
       delete: false,
     };
-  
+
   }
 
   componentDidMount() {
 
     this.confirmDelete();
-  
+
   }
 
-  deleteUser = () => {
+  async deleteUser ()  {
 
-    axios.delete(`https://reqres.in/api/users/${this.props.match.params.id}`)
-      .then((response) => {
-
-        console.log('deleted', response);
-        this.setState({ delete: true });
-      
-      })
-      .catch((error) => {
-
-        console.log(error);
-      
-      });
-  
+    await deleteUser(this.props.match.params.id);
+    this.setState({ delete: true });
   }
 
   cancel = () => {
 
     this.setState({ cancel: true });
-  
+
   }
 
   confirmDelete = () => {
@@ -49,13 +38,13 @@ class DeleteUser extends Component {
     if (alert('are you sure you want to delete')) {
 
       this.deleteUser();
-    
+
     } else {
 
       this.cancel();
-    
+
     }
-  
+
   }
 
   render() {
@@ -66,7 +55,7 @@ class DeleteUser extends Component {
         {this.state.cancel ? <Redirect to='/list' /> : null}
       </div>
     );
-  
+
   }
 
 }
