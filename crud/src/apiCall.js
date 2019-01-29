@@ -39,6 +39,7 @@ export const deleteUser = (id) => {
       .then((response) => {
 
         console.log(response);
+        return response;
 
       })
       .catch((error) => {
@@ -66,7 +67,7 @@ export const getUser = (id) => {
 };
 export const editUser = (id,firstname,lastname) => {
   return (
-    axios.get(`https://reqres.in/api/users/${id}`, {
+    axios.put(`https://reqres.in/api/users/${id}`, {
       name: firstname,
       job: lastname,
     })

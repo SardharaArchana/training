@@ -1,75 +1,123 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { addUser, getUser, editUser } from '../apiCall';
+
 import './addUser.css';
-import { addUser } from '../apiCall';
 
 class AddUser extends Component {
 
-  constructor() {
+  constructor(props) {
 
-    super();
+    super(props);
     this.state = {
+      user: {
+        first_name: '',
+        last_name: '',
+        avatar: '',
+      },
+      Id: 0,
       submit: false,
-      name: '',
-      job: '',
-      getData: false,
       empty: false
     };
 
   }
 
+  async componentDidMount() {
+    let userid = Number(this.props.match.params.id);
+    await this.setState({ Id: userid });
+    if (this.state.Id) {
+      let response = await getUser(this.state.Id);
+      if (response) {
+        console.log(response)
+        this.setState({ user: response.data.data });
+      }
+    } else {
+      this.setState({
+        user: {
+          first_name: '',
+          last_name: '',
+          avatar: ''
+        },
+        id: 0,
+        submit: false
+      });
+      console.log('error');
+    }
+  }
+
   async onClick() {
+    const { submit, Id } = this.state;
+    const { first_name, last_name } = this.state.user;
+    this.setState({ submit: true });
     if (this.state.empty) {
       alert('enter value');
     } else {
-      this.setState({ getData: true });
-      const { name, job } = this.state;
-      await addUser(name, job);
-      this.setState({ submit: true, getData: false });
+      if (Id) {
+        await editUser(first_name, last_name);
+        this.setState({
+          user: {
+            first_name: '',
+            last_name: '',
+            avatar: ''
+          },
+          Id: 0,
+          submit: false,
+        });
+      } else {
+        await addUser(first_name, last_name);
+        this.setState({ submit: false });
+      }
+    }
+    if (!submit) {
+      this.props.history.push('/list');
     }
   }
 
   cancel() {
-
     this.setState({ submit: true });
-
+    this.props.history.push('/list');
   }
 
   onChange(name, value) {
-    const obj = {};
+    const obj = { ...this.state.user };
     obj[name] = value;
-    this.setState(obj);
-
+    this.setState({ user: obj });
   }
 
   onBlur(value) {
-
     value === '' ? this.setState({ empty: true }) : this.setState({ empty: false });
   }
 
   render() {
-
-    const {getData, name,job}=this.state;
+    const { last_name, first_name, avatar } = this.state.user;
+    const {  submit, Id } = this.state;
 
     return (
       <div className='div'>
-        <h4 className='h4'>Add User</h4><br />
+        <h4 className='h4'>{Id ? 'Edit User' : 'Add User'}</h4><br />
         <div className='div'>
           <label className='label' >Name:</label>
         </div>
-        <input className='input' placeholder='enter first name' value={name} name='name' onBlur={(e) => this.onBlur(e.target.value)} onChange={e => this.onChange(e.target.name, e.target.value)} ></input>
+        <input className='input' placeholder='enter first name' value={first_name} name='first_name' onBlur={(e) => this.onBlur(e.target.value)} onChange={e => this.onChange(e.target.name, e.target.value)} ></input>
         <div className='div'>
           <label className='label'>Job:</label>
         </div>
-        <input className='input' placeholder='enter job' value={job} name='job' onBlur={(e) => this.onBlur(e.target.value)} onChange={e => this.onChange(e.target.name, e.target.value)} ></input>
+        <input className='input' placeholder='enter job' value={last_name} name='last_name' onBlur={(e) => this.onBlur(e.target.value)} onChange={e => this.onChange(e.target.name, e.target.value)} ></input>
+        {Id ?
+          <div>
+            <div className='div'>
+              <label className='label'>Avatar:</label>
+            </div>
+            <div className='div'>
+              <img className='img-style' src={avatar} alt='avatar' />
+            </div>
+          </div> :
+          null}
         <div className='div'>
-          <button className='button' onClick={() => this.onClick()}>{getData ? 'please wait' : 'Submit'}</button>
+          <button className='button' onClick={() => this.onClick()}>{submit ? 'please wait' : 'Submit'}</button>
           <button className='button' onClick={() => this.cancel()} >Cancel</button>
         </div>
-        {this.state.submit ? <Redirect to='/list' /> : null}
       </div>
     );
-
   }
 
 }

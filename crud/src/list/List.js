@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Action from './action/action';
+import {Link} from 'react-router-dom';
 import ListHeader from './listHeader';
 import Pagination from './pagination/pagination';
 import './list.css';
-import { getUserList } from '../apiCall';
+import { getUserList, deleteUser } from '../apiCall';
 
 class List extends Component {
 
@@ -39,6 +39,21 @@ class List extends Component {
       fetch: false
     });
   }
+
+  deleteUser(id) {
+    if (window.confirm('are you sure you want to delete')) {
+      if (deleteUser(id)) {
+        console.log('deleted');
+        this.props.history.push('/list');
+      } else {
+        console.log('error');
+      }
+    }
+
+    else {
+      console.log('error');
+    }
+  }
   render() {
     return (
       <div >
@@ -53,7 +68,9 @@ class List extends Component {
                     <div className='divElement'>{u.first_name}</div>
                     <div className='divElement'>{u.last_name}</div>
                     <div className='divElement'><img className='divStyle-img' src={u.avatar} alt='avatar' /></div>
-                    <div className='divElement'><Action id={u.id} /></div>
+                    <div className='divElement'>  
+                    <Link className='a-style' to={`/list/edit/${u.id}`} params={{ id: u.id }} >Edit</Link> | &nbsp;
+                     <Link className='a-style' to='/list' onClick={() => this.deleteUser(u.id)} >Delete</Link></div>
                   </div>
                 </div>)}
               </div>
