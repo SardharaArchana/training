@@ -13,11 +13,11 @@ export const getUserList = (id) => {
   )
 };
 
-export const addUser = (name, job) => {
+export const addUser = (obj) => {
   return (
     axios.post('https://reqres.in/api/users', {
-      name: name,
-      job: job,
+      name: obj.first_name,
+      job: obj.last_name,
     })
       .then((response) => {
         console.log('addUser', response);
@@ -57,11 +57,11 @@ export const getUser = (id) => {
       })
   )
 };
-export const editUser = (id, firstname, lastname) => {
+export const editUser = (obj) => {
   return (
-    axios.put(`https://reqres.in/api/users/${id}`, {
-      name: firstname,
-      job: lastname,
+    axios.put(`https://reqres.in/api/users/${obj.id}`, {
+      name: obj.first_name,
+      job: obj.last_name,
     })
       .then((response) => {
         console.log('editUser', response);

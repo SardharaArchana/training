@@ -19,6 +19,17 @@ class AddUser extends Component {
     };
   }
 
+  componentWillReceiveProps(prop,state){
+    this.setState({
+      user: {
+        first_name: '',
+        last_name: '',
+        avatar: ''
+      },
+      Id: 0,
+    });
+  }
+
   async componentDidMount() {
     let userid = Number(this.props.match.params.id);
     await this.setState({ Id: userid });
@@ -49,7 +60,7 @@ class AddUser extends Component {
       alert('enter value');
     } else {
       if (Id) {
-        await editUser(first_name, last_name);
+        await editUser({first_name, last_name,Id});
         this.setState({
           user: {
             first_name: '',
@@ -60,7 +71,7 @@ class AddUser extends Component {
           submit: false,
         });
       } else {
-        await addUser(first_name, last_name);
+        await addUser({ first_name,last_name});
         this.setState({ submit: false });
       }
     }
