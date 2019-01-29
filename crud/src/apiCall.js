@@ -1,14 +1,12 @@
 import axios from 'axios';
 export const getUserList = (id) => {
   return (
-    axios.get('https://reqres.in/api/users?page='+id)
+    axios.get('https://reqres.in/api/users?page=' + id)
       .then((response) => {
-
-        console.log('response', response);
+        console.log('getUserList', response);
         return response;
       })
       .catch((error) => {
-
         console.log(error);
         return error;
       })
@@ -22,13 +20,12 @@ export const addUser = (name, job) => {
       job: job,
     })
       .then((response) => {
-
-        console.log(response);
-
+        console.log('addUser', response);
+        return response;
       })
       .catch((error) => {
-
         console.log(error);
+        return error;
       })
   )
 };
@@ -37,14 +34,12 @@ export const deleteUser = (id) => {
   return (
     axios.delete(`https://reqres.in/api/users/${id}`)
       .then((response) => {
-
-        console.log(response);
+        console.log('deleteUser', response);
         return response;
-
       })
       .catch((error) => {
-
         console.log(error);
+        return error;
       })
   )
 };
@@ -53,32 +48,28 @@ export const getUser = (id) => {
   return (
     axios.get(`https://reqres.in/api/users/${id}`)
       .then((response) => {
-
-        console.log(response);
+        console.log('getUser', response);
         return response;
-
       })
       .catch((error) => {
-
         console.log(error);
         return error;
       })
   )
 };
-export const editUser = (id,firstname,lastname) => {
+export const editUser = (id, firstname, lastname) => {
   return (
     axios.put(`https://reqres.in/api/users/${id}`, {
       name: firstname,
       job: lastname,
     })
       .then((response) => {
-
-        console.log(response);
-
+        console.log('editUser', response);
+        return response;
       })
       .catch((error) => {
-
         console.log(error);
+        return error;
       })
   )
 };
