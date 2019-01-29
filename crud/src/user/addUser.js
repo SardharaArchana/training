@@ -128,7 +128,7 @@ class AddUser extends Component {
           </div> : null
         }
         <div className='div'>
-          <button className='button' onClick={() => this.onClick()}>
+          <button className='button-active' onClick={() => this.onClick()}>
             {submit ? 'please wait' : 'Submit'}
           </button>
           <button className='button' onClick={() => this.cancel()} >Cancel</button>

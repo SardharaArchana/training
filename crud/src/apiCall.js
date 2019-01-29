@@ -4,7 +4,7 @@ export const getUserList = (id) => {
     axios.get('https://reqres.in/api/users?page=' + id)
       .then((response) => {
         console.log('getUserList', response);
-        return response;
+        return Promise.resolve(response);
       })
       .catch((error) => {
         console.log(error);

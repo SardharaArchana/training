@@ -20,12 +20,13 @@
     border-radius: 4px;
     background-color:rgba(194, 199, 194, 0.4);
 }
-.buttonactive{
+.button-active{
     margin:10px;
-    width:60px;
+    width:auto;
+    padding: 4px;
     height:30px;
-    background-color:rgba(52, 54, 52, 0.4);
-}
+    border-radius: 4px;
+    background-color:rgba(52, 54, 52, 0.4)}
 .img-style{
     width: 100px;
     height: 100px;
