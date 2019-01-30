@@ -9,14 +9,14 @@ import './app.css';
 const routing = (
   <div className='margin'>
     <BrowserRouter>
-      <div>
+      <React.Fragment>
         <Header />
         <Switch>
           <Route excat path='/new' component={AddUser} />
           <Route excat path='/list/edit/:id' component={AddUser} />
           <Route excat path='/list' component={List} />
         </Switch>
-      </div>
+      </React.Fragment>
     </BrowserRouter>
   </div>
 );

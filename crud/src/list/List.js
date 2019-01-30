@@ -1,40 +1,41 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
 import ListHeader from './listHeader';
-import Pagination from './pagination/pagination';
+import { getUserList, deleteUser } from '../api/apiCall';
+
+import './pagination.css';
 import './list.css';
-import { getUserList, deleteUser } from '../apiCall';
 
 class List extends Component {
 
   constructor() {
     super();
     this.state = {
-      userList: [],
+      user: {},
       loading: true,
       fetch: false,
-      activePage: 0,
-      totalPage: 0,
     };
   }
 
   async componentDidMount() {
-    let res = await getUserList();
+    let result = await getUserList();
+    if(result){
     this.setState({
-      userList: res.data.data,
-      activePage: res.data.page,
-      totalPage: res.data.total_pages,
+      user: result.data,
       loading: false
     });
+  }
+  else{
+    console.log('user list not found');
+  }
   }
 
   async setList(id) {
     this.setState({ fetch: true });
     let response = await getUserList(id);
     this.setState({
-      userList: response.data.data,
-      activePage: response.data.page,
-      totalPage: response.data.total_pages,
+      user: response.data,
       fetch: false
     });
   }
@@ -51,6 +52,17 @@ class List extends Component {
     }
   }
 
+  createButton = () => {
+    const pagination = Array.apply(null,Array(this.state.user.total_pages))
+    let classname = '';
+    pagination.map((i) =>
+      <div key={i}>
+        <button className={classname} value={i} onClick={e => this.setList(e.target.value, i)}>{i + 1}</button>
+      </div>
+    );
+    return pagination;
+  }
+
   render() {
     return (
       <div >
@@ -60,7 +72,7 @@ class List extends Component {
             <div>
               <div className='divBorder'>
                 <ListHeader />
-                {this.state.userList.map((u, i) => <div key={i}>
+                {this.state.user.data.map((u, i) => <div key={i}>
                   <div className='divStyle'>
                     <div className='divElement'>{u.first_name}</div>
                     <div className='divElement'>{u.last_name}</div>
@@ -72,11 +84,7 @@ class List extends Component {
                 </div>)}
               </div>
               <div className='inline'>
-                <Pagination key={this.state.activePage}
-                  totalpage={this.state.totalPage}
-                  activepage={this.state.activePage}
-                  onClick={(e) => this.setList(e)}
-                />
+                {this.createButton()}
               </div>
               <div className='inline'>
                 {this.state.fetch ?

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { addUser, getUser, editUser } from '../apiCall';
+
+import { addUser, getUser, editUser } from '../api/apiCall';
 
 import './addUser.css';
 
@@ -19,7 +20,7 @@ class AddUser extends Component {
     };
   }
 
-  componentWillReceiveProps(prop, state) {
+  componentWillReceiveProps() {
     this.setState({
       user: {
         first_name: '',
@@ -47,24 +48,21 @@ class AddUser extends Component {
     const { submit, Id } = this.state;
     const { first_name, last_name } = this.state.user;
     this.setState({ submit: true });
-    if (this.state.empty) {
-      alert('enter value');
+    if (Id) {
+      await editUser({ first_name, last_name, Id });
+      this.setState({
+        user: {
+          first_name: '',
+          last_name: '',
+          avatar: ''
+        },
+        Id: 0,
+        submit: false,
+      });
     } else {
-      if (Id) {
-        await editUser({ first_name, last_name, Id });
-        this.setState({
-          user: {
-            first_name: '',
-            last_name: '',
-            avatar: ''
-          },
-          Id: 0,
-          submit: false,
-        });
-      } else {
-        await addUser({ first_name, last_name });
-        this.setState({ submit: false });
-      }
+      let res = await addUser({ first_name, last_name });
+      console.log(res);
+      this.setState({ submit: false });
     }
     if (!submit) {
       this.props.history.push('/list');
@@ -86,9 +84,10 @@ class AddUser extends Component {
     value === '' ? this.setState({ empty: true }) : this.setState({ empty: false });
   }
 
+
   render() {
     const { last_name, first_name, avatar } = this.state.user;
-    const { submit, Id } = this.state;
+    const { submit, Id, empty } = this.state;
 
     return (
       <div className='div'>
@@ -132,11 +131,10 @@ class AddUser extends Component {
             {submit ? 'please wait' : 'Submit'}
           </button>
           <button className='button' onClick={() => this.cancel()} >Cancel</button>
+          {empty ? <span>enter values</span> : null}
         </div>
       </div>
     );
   }
-
 }
-
 export default AddUser;
