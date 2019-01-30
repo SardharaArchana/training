@@ -1,10 +1,11 @@
 import React from 'react';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
-import List from './list/List';
-import AddUser from '../src/user/addUser';
-import Header from './list/header/header';
+import List from './page/home/list/List';
+import AddUser from './page/user/addUser';
+import Header from './page/list/header/header';
 import './app.css';
+import NotFound from './page/notfound/notFound';
 
 const routing = (
   <div className='margin'>
@@ -15,6 +16,7 @@ const routing = (
           <Route excat path='/new' component={AddUser} />
           <Route excat path='/list/edit/:id' component={AddUser} />
           <Route excat path='/list' component={List} />
+          <Route component={NotFound}/>
         </Switch>
       </React.Fragment>
     </BrowserRouter>

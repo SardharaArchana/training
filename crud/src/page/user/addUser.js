@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import { addUser, getUser, editUser } from '../api/apiCall';
+import { addUser, getUser, editUser } from '../../api/apiCall';
 
-import './addUser.css';
+import '../user/addUser.css';
 
 class AddUser extends Component {
 
@@ -21,14 +21,17 @@ class AddUser extends Component {
   }
 
   componentWillReceiveProps() {
-    this.setState({
-      user: {
-        first_name: '',
-        last_name: '',
-        avatar: ''
-      },
-      Id: 0,
-    });
+    if (!this.state.submit) {
+      this.setState({
+        user: {
+          first_name: '',
+          last_name: '',
+          avatar: ''
+        },
+        Id: 0,
+      });
+    }
+
   }
 
   async componentDidMount() {
@@ -62,7 +65,13 @@ class AddUser extends Component {
     } else {
       let res = await addUser({ first_name, last_name });
       console.log(res);
-      this.setState({ submit: false });
+      this.setState({
+        user: {
+          first_name: '',
+          last_name: '',
+          avatar: ''
+        }, submit: false
+      });
     }
     if (!submit) {
       this.props.history.push('/list');

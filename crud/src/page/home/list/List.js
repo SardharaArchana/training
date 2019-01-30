@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import ListHeader from './listHeader';
-import { getUserList, deleteUser } from '../api/apiCall';
+import { getUserList, deleteUser } from '../../../api/apiCall';
 
-import './pagination.css';
+import '../pagination.css';
 import './list.css';
 
 class List extends Component {
