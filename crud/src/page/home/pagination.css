@@ -1,4 +1,4 @@
-button{
+.buttonStyle{
     width: 30px;
     height: 30px;
     background-color: rgb(247, 249, 252);
@@ -10,7 +10,7 @@ button{
     border-style: none;
 }
 
-a :hover{
+.buttonStyle :hover{
     background-color:rgb(146, 151, 146);
 }
 .active{
@@ -21,6 +21,8 @@ a :hover{
     color:black;
     margin-inline-end: 2px;
     margin-top: 4px;
+    box-shadow: none;
+    border-style: none;
 }
 a{
     text-decoration: none;

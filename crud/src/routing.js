@@ -3,7 +3,7 @@ import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
 import List from './page/home/list/List';
 import AddUser from './page/user/addUser';
-import Header from './page/list/header/header';
+import Header from './page/home/header/header';
 import './app.css';
 import NotFound from './page/notfound/notFound';
 

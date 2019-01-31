@@ -20,15 +20,16 @@ class List extends Component {
 
   async componentDidMount() {
     let result = await getUserList();
-    if(result){
-    this.setState({
-      user: result.data,
-      loading: false
-    });
-  }
-  else{
-    console.log('user list not found');
-  }
+    if (result) {
+      this.setState({
+        user: result.data,
+        loading: false
+      });
+    }
+    else {
+      console.log('user list not found');
+    }
+    console.log(this.state.user);
   }
 
   async setList(id) {
@@ -53,14 +54,12 @@ class List extends Component {
   }
 
   createButton = () => {
-    const pagination = Array.apply(null,Array(this.state.user.total_pages))
-    let classname = '';
-    pagination.map((i) =>
-      <div key={i}>
-        <button className={classname} value={i} onClick={e => this.setList(e.target.value, i)}>{i + 1}</button>
-      </div>
-    );
-    return pagination;
+    const {total_pages,page}=this.state.user;
+    const pagination = Array(total_pages)
+    return (
+      pagination.fill(0).map((u, i) =>
+        <button key={i } className={i+1===page?'active':'buttonStyle'} id={i } onClick={() => this.setList(i + 1)}>{u + i + 1}</button>
+      ))
   }
 
   render() {
