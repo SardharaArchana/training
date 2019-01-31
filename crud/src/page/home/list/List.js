@@ -72,11 +72,11 @@ class List extends Component {
               <div className='divBorder'>
                 <ListHeader />
                 {this.state.user.data.map((u, i) => <div key={i}>
-                  <div className='divStyle'>
-                    <div className='divElement'>{u.first_name}</div>
-                    <div className='divElement'>{u.last_name}</div>
-                    <div className='divElement'><img className='divStyle-img' src={u.avatar} alt='avatar' /></div>
-                    <div className='divElement'>
+                  <div className='container'>
+                    <div>{u.first_name}</div>
+                    <div>{u.last_name}</div>
+                    <div><img className='divStyle-img' src={u.avatar} alt='avatar' /></div>
+                    <div>
                       <Link className='a-style' to={`/list/edit/${u.id}`} params={{ id: u.id }} >Edit</Link> | &nbsp;
                      <Link className='a-style' to='/list' onClick={() => this.deleteUser(u.id)} >Delete</Link></div>
                   </div>

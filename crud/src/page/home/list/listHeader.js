@@ -2,13 +2,12 @@ import React from 'react';
 import './list.css';
 
 const ListHeader = () => (
-  <div className='divStyleHeader'>
-    <b>
-      <div className='divElement'>First Name </div>
-      <div className='divElement'>Last Name</div>
-      <div className='divElement'>Avatar </div>
-      <div className='divElement'>Action</div>
-    </b>
+  <div className='containerHeader'>
+      <div>First Name </div>
+      <div>Last Name</div>
+      <div>Avatar </div>
+      <div>Action</div>
+    
   </div>
 );
 
