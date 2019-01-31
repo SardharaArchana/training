@@ -5,16 +5,14 @@
 .containerHeader {
     width: auto;
     display: flex;
+    border-bottom: solid 1px rgb(204, 201, 201);
     height: 50px;
   }
 .containerHeader div{
     padding: 8px;
       width: 25%;
       overflow: auto;
-      border-top:solid 0.5px rgb(204, 201, 201);
-      border-left:solid 0.5px rgb(204, 201, 201);
-      border-right: solid 0.5px rgb(204, 201, 201); 
-      border-bottom:solid 1.5px rgb(204, 201, 201);
+      border:solid 0.25px rgb(204, 201, 201);
   }
 .container {
     width: auto;
