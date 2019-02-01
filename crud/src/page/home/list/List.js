@@ -53,6 +53,17 @@ class List extends Component {
     }
   }
 
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.user !== this.props.history.location.state) {
+  //     console.log('list....');
+  //     this.addNewUser();
+  //   }
+  // }
+
+  // addNewUser() {
+  //   console.log('new user');
+  // }
+
   createButton = () => {
     const { total_pages, page } = this.state.user;
     const pagination = Array(total_pages)
@@ -70,6 +81,7 @@ class List extends Component {
             <p>Please Wait while we are getting user Details..</p> :
             <div>
               <div className='divBorder'>
+                {console.log(this.props.history.location.state)}
                 <ListHeader />
                 {this.state.user.data.map((u, i) => <div key={i}>
                   <div className='container'>
