@@ -1,10 +1,10 @@
 import Interceptor from '../interceptor/interceptor';
 
- export const  getUserList = (page) => {
+export const getUserList = (page) => {
   const url = `users?page=${page}`;
   // const url = '';
   return Interceptor.get(url);
-}
+};
 
 export const addUser = (obj) => {
   const url = 'users';
@@ -12,15 +12,15 @@ export const addUser = (obj) => {
 };
 
 export const deleteUser = (id) => {
-  const url=`users/${id}`;
+  const url = `users/${id}`;
   return Interceptor.del(url);
-  };
+};
 
 export const getUser = (id) => {
-   const url=`users/${id}`;
+  const url = `users/${id}`;
   return Interceptor.get(url);
 };
 export const editUser = (obj) => {
-  const url=`users/${obj.id}`;
-  return Interceptor.put(url,obj);
+  const url = `users/${obj.id}`;
+  return Interceptor.put(url, obj);
 };

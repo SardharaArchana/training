@@ -10,14 +10,14 @@ const post = (url, obj) => {
       return Promise.resolve({
         success: true,
         data: response.data,
-        error: null
+        error: null,
       });
     })
     .catch(error => {
       return Promise.reject({
         success: false,
         error: 'Something Went Wrong!' + error,
-        data: null
+        data: null,
       })
     })
 }
@@ -30,14 +30,14 @@ const del = (url, obj) => {
       return Promise.resolve({
         success: true,
         data: response.data,
-        error: null
+        error: null,
       });
     })
     .catch(error => {
       return Promise.reject({
         success: false,
         error: 'Something Went Wrong!' + error,
-        data: null
+        data: null,
       })
     })
 }
@@ -50,14 +50,14 @@ const get = (url) => {
       return Promise.resolve({
         success: true,
         data: response.data,
-        error: null
+        error: null,
       });
     })
     .catch(error => {
       return Promise.reject({
         success: false,
         error: 'Something Went Wrong!' + error,
-        data: null
+        data: null,
       })
     })
 }
@@ -70,14 +70,14 @@ const put = (url, obj) => {
       return Promise.resolve({
         success: true,
         data: response.data,
-        error: null
+        error: null,
       });
     })
     .catch(error => {
       return Promise.reject({
         success: false,
         error: 'Something Went Wrong!' + error,
-        data: null
+        data: null,
       })
     })
 }

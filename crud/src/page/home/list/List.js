@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
 
 import ListHeader from './listHeader';
 import { getUserList, deleteUser } from '../../../api/apiCall';
@@ -24,21 +25,11 @@ class List extends Component {
       if (result) {
         this.setState({
           user: result.data,
-          loading: false
+          loading: false,
         });
       }
     } catch (e) {
       this.props.history.push('/somethingWrong');
-    }
-  }
-
-  componentWillMount() {
-    console.log('componentWillMount');
-    if (this.props.location.state) {
-      console.log('data....');
-      this.addNewUser();
-    } else {
-      console.log('...........')
     }
   }
 
@@ -48,7 +39,7 @@ class List extends Component {
     if (response) {
       this.setState({
         user: response.data,
-        fetch: false
+        fetch: false,
       });
     }
   }
@@ -65,23 +56,21 @@ class List extends Component {
     }
   }
 
-  async addNewUser() {
-    console.log('new user');
-    let obj = this.props.location.state;
-    await this.setState({ user: { obj } });
-  }
-
   createButton = () => {
     const { total_pages, page } = this.state.user;
     const pagination = Array(total_pages)
     return (
       pagination.fill(0).map((u, i) =>
-        <button key={i} className={i + 1 === page ? 'active' : 'buttonStyle'} id={i} onClick={() => this.setList(i + 1)}>{u + i + 1}</button>
+        <button
+          key={i}
+          className={i + 1 === page ? 'active' : 'buttonStyle'}
+          id={i}
+          onClick={() => this.setList(i + 1)}
+        >{u + i + 1}</button>
       ))
   }
 
   render() {
-    console.log('store in user', this.state)
     return (
       <div >
         <div>
@@ -97,9 +86,20 @@ class List extends Component {
                     <div><img className='divStyle-img' src={u.avatar} alt='avatar' /></div>
                     <div>
                       <Link className='a-style' to={`/list/edit/${u.id}`} params={{ id: u.id }} >Edit</Link> | &nbsp;
-                     <Link className='a-style' to='/list' onClick={() => this.deleteUser(u.id)} >Delete</Link></div>
+                      <Link className='a-style' to='/list' onClick={() => this.deleteUser(u.id)} >Delete</Link></div>
                   </div>
                 </div>)}
+                {console.log('prop', this.props.location.state)}
+                {this.props.location.state ? <div className='containerHeader'>
+                  <div>{this.props.location.state.addUser.first_name} </div>
+                  <div>{this.props.location.state.addUser.last_name} </div>
+                  <div><img className='divStyle-img'
+                    src={this.props.location.state.addUser.avatar}
+                    alt='avatar' /></div>
+                  <div>
+                    <li className='a-style inline'>edit</li> | &nbsp;<li className='a-style inline'>delete</li>
+                  </div>
+                </div> : null}
               </div>
               <div className='inline'>
                 {this.createButton()}
@@ -119,3 +119,8 @@ class List extends Component {
 }
 
 export default List;
+
+List.propTypes = {
+  history: PropTypes.object,
+  location: PropTypes.object,
+};

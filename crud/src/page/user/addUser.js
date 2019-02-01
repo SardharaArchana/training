@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 
 import { addUser, getUser, editUser } from '../../api/apiCall';
 
@@ -16,17 +17,17 @@ class AddUser extends Component {
       },
       Id: 0,
       submit: false,
-      empty: false
+      empty: false,
     };
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     if (!this.state.submit) {
       this.setState({
         user: {
           first_name: '',
           last_name: '',
-          avatar: ''
+          avatar: '',
         },
         Id: 0,
       });
@@ -64,7 +65,17 @@ class AddUser extends Component {
       if (res) {
         this.setState({ submit: false });
         if (!submit) {
-          this.props.history.push({ pathname: '/list', state: { addUser: res.data } });
+          this.props.history.push({
+            pathname: '/list',
+            state: {
+              addUser: {
+                avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg",
+                id: res.data.id,
+                first_name:res.data.first_name,
+                last_name:res.data.last_name,
+              }
+            }
+          });
         }
       }
     }
@@ -139,3 +150,8 @@ class AddUser extends Component {
   }
 }
 export default AddUser;
+
+AddUser.propTypes = {
+  match: PropTypes.object,
+  history: PropTypes.object,
+};
