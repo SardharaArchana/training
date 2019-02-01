@@ -52,20 +52,22 @@ class AddUser extends Component {
     const { first_name, last_name } = this.state.user;
     this.setState({ submit: true });
     if (Id) {
-      await editUser({ first_name, last_name, Id });
-      this.setState({ submit: false });
-      if (!submit) {
-        this.props.history.push('/list');
+      let res = await editUser({ first_name, last_name, Id });
+      if (res) {
+        this.setState({ submit: false });
+        if (!submit) {
+          this.props.history.push('/list');
+        }
       }
     } else {
       let res = await addUser({ first_name, last_name });
-      console.log(res);
-      this.setState({ submit: false });
-      if (!submit) {
-        this.props.history.push({ pathname: '/list', state: { addUser: res.data } });
+      if (res) {
+        this.setState({ submit: false });
+        if (!submit) {
+          this.props.history.push({ pathname: '/list', state: { addUser: res.data } });
+        }
       }
     }
-
   }
 
   cancel() {

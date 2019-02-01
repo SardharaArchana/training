@@ -32,13 +32,25 @@ class List extends Component {
     }
   }
 
+  componentWillMount() {
+    console.log('componentWillMount');
+    if (this.props.location.state) {
+      console.log('data....');
+      this.addNewUser();
+    } else {
+      console.log('...........')
+    }
+  }
+
   async setList(id) {
     this.setState({ fetch: true });
     let response = await getUserList(id);
-    this.setState({
-      user: response.data,
-      fetch: false
-    });
+    if (response) {
+      this.setState({
+        user: response.data,
+        fetch: false
+      });
+    }
   }
 
   deleteUser(id) {
@@ -53,16 +65,11 @@ class List extends Component {
     }
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.user !== this.props.history.location.state) {
-  //     console.log('list....');
-  //     this.addNewUser();
-  //   }
-  // }
-
-  // addNewUser() {
-  //   console.log('new user');
-  // }
+  async addNewUser() {
+    console.log('new user');
+    let obj = this.props.location.state;
+    await this.setState({ user: { obj } });
+  }
 
   createButton = () => {
     const { total_pages, page } = this.state.user;
@@ -74,6 +81,7 @@ class List extends Component {
   }
 
   render() {
+    console.log('store in user', this.state)
     return (
       <div >
         <div>
@@ -81,7 +89,6 @@ class List extends Component {
             <p>Please Wait while we are getting user Details..</p> :
             <div>
               <div className='divBorder'>
-                {console.log(this.props.history.location.state)}
                 <ListHeader />
                 {this.state.user.data.map((u, i) => <div key={i}>
                   <div className='container'>
