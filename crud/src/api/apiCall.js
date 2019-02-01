@@ -3,12 +3,7 @@ import Interceptor from '../interceptor/interceptor';
  export const  getUserList = (page) => {
   const url = `users?page=${page}`;
   // const url = '';
-  try{
-  let res= Interceptor.get(url);
-  return res;
-  }catch(E){
-    return E;
-  }
+  return Interceptor.get(url);
 }
 
 export const addUser = (obj) => {

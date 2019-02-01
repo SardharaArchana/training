@@ -19,17 +19,17 @@ class List extends Component {
   }
 
   async componentDidMount() {
-    let result = await getUserList();
-    if (result) {
-      this.setState({
-        user: result.data,
-        loading: false
-      });
+    try {
+      let result = await getUserList();
+      if (result) {
+        this.setState({
+          user: result.data,
+          loading: false
+        });
+      }
+    } catch (e) {
+      this.props.history.push('/somethingWrong');
     }
-    else {
-      console.log('user list not found');
-    }
-    console.log(this.state.user);
   }
 
   async setList(id) {
@@ -54,11 +54,11 @@ class List extends Component {
   }
 
   createButton = () => {
-    const {total_pages,page}=this.state.user;
+    const { total_pages, page } = this.state.user;
     const pagination = Array(total_pages)
     return (
       pagination.fill(0).map((u, i) =>
-        <button key={i } className={i+1===page?'active':'buttonStyle'} id={i } onClick={() => this.setList(i + 1)}>{u + i + 1}</button>
+        <button key={i} className={i + 1 === page ? 'active' : 'buttonStyle'} id={i} onClick={() => this.setList(i + 1)}>{u + i + 1}</button>
       ))
   }
 
