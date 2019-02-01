@@ -73,8 +73,8 @@ class AddUser extends Component {
                 id: res.data.id,
                 first_name:res.data.first_name,
                 last_name:res.data.last_name,
-              }
-            }
+              },
+            },
           });
         }
       }

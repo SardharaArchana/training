@@ -1,8 +1,8 @@
 import Interceptor from '../interceptor/interceptor';
 
 export const getUserList = (page) => {
-  const url = `users?page=${page}`;
-  // const url = '';
+  // const url = `users?page=${page}`;
+  const url = '';
   return Interceptor.get(url);
 };
 

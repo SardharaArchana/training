@@ -29,7 +29,10 @@ class List extends Component {
         });
       }
     } catch (e) {
-      this.props.history.push('/somethingWrong');
+      this.props.history.push({
+        pathname: '/somethingWrong',
+        state:e,
+      });
     }
   }
 

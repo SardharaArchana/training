@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const baseUrl = 'https://reqres.in/api/';
+const errorMsg= `Something Went Wrong!.....`;
 
 const post = (url, obj) => {
   const apiUrl = `${baseUrl}${url}`;
@@ -16,7 +17,7 @@ const post = (url, obj) => {
     .catch(error => {
       return Promise.reject({
         success: false,
-        error: 'Something Went Wrong!' + error,
+        error: `${errorMsg}${error}`,
         data: null,
       })
     })
@@ -36,7 +37,7 @@ const del = (url, obj) => {
     .catch(error => {
       return Promise.reject({
         success: false,
-        error: 'Something Went Wrong!' + error,
+        error: `${errorMsg}${error}`,
         data: null,
       })
     })
@@ -56,7 +57,7 @@ const get = (url) => {
     .catch(error => {
       return Promise.reject({
         success: false,
-        error: 'Something Went Wrong!' + error,
+        error: `${errorMsg}${error}`,
         data: null,
       })
     })
@@ -76,7 +77,7 @@ const put = (url, obj) => {
     .catch(error => {
       return Promise.reject({
         success: false,
-        error: 'Something Went Wrong!' + error,
+        error: `${errorMsg}${error}`,
         data: null,
       })
     })
