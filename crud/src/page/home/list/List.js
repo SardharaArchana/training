@@ -31,31 +31,45 @@ class List extends Component {
     } catch (e) {
       this.props.history.push({
         pathname: '/somethingWrong',
-        state:e,
+        state: e,
       });
     }
   }
 
   async setList(id) {
     this.setState({ fetch: true });
-    let response = await getUserList(id);
-    if (response) {
-      this.setState({
-        user: response.data,
-        fetch: false,
+    try {
+      let response = await getUserList(id);
+      if (response) {
+        this.setState({
+          user: response.data,
+          fetch: false,
+        });
+      }
+    } catch (e) {
+      this.props.history.push({
+        pathname: '/somethingWrong',
+        state: e,
       });
     }
   }
 
   deleteUser(id) {
     if (window.confirm('are you sure you want to delete')) {
-      if (deleteUser(id)) {
-        console.log('deleted');
-      } else {
-        console.log('error');
+      try {
+        if (deleteUser(id)) {
+          console.log('deleted');
+        } else {
+          console.log('error');
+        }
+      } catch (e) {
+        this.props.history.push({
+          pathname: '/somethingWrong',
+          state: e,
+        });
       }
     } else {
-      console.log('error');
+      console.log('cancel');
     }
   }
 
@@ -92,7 +106,6 @@ class List extends Component {
                       <Link className='a-style' to='/list' onClick={() => this.deleteUser(u.id)} >Delete</Link></div>
                   </div>
                 </div>)}
-                {console.log('prop', this.props.location.state)}
                 {this.props.location.state ? <div className='containerHeader'>
                   <div>{this.props.location.state.addUser.first_name} </div>
                   <div>{this.props.location.state.addUser.last_name} </div>

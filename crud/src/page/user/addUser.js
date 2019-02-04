@@ -21,8 +21,8 @@ class AddUser extends Component {
     };
   }
 
-  UNSAFE_componentWillReceiveProps() {
-    if (!this.state.submit) {
+  componentDidUpdate(prevProp) {
+    if (prevProp.match.params.id !== this.props.match.params.id) {
       this.setState({
         user: {
           first_name: '',
@@ -32,18 +32,22 @@ class AddUser extends Component {
         Id: 0,
       });
     }
-
   }
 
   async componentDidMount() {
     let userid = Number(this.props.match.params.id);
     await this.setState({ Id: userid });
     if (this.state.Id) {
-      let response = await getUser(this.state.Id);
-      if (response) {
-        this.setState({ user: response.data.data });
-      } else {
-        console.log('error');
+      try {
+        let response = await getUser(this.state.Id);
+        if (response) {
+          this.setState({ user: response.data.data });
+        }
+      } catch (e) {
+        this.props.history.push({
+          pathname: '/somethingWrong',
+          state: e,
+        });
       }
     }
   }
@@ -52,32 +56,40 @@ class AddUser extends Component {
     const { submit, Id } = this.state;
     const { first_name, last_name } = this.state.user;
     this.setState({ submit: true });
-    if (Id) {
-      let res = await editUser({ first_name, last_name, Id });
-      if (res) {
-        this.setState({ submit: false });
-        if (!submit) {
-          this.props.history.push('/list');
+    try {
+      if (Id) {
+        let res = await editUser({ first_name, last_name, Id });
+        if (res) {
+          this.setState({ submit: false });
+          if (!submit) {
+            this.props.history.push('/list');
+          }
         }
       }
-    } else {
-      let res = await addUser({ first_name, last_name });
-      if (res) {
-        this.setState({ submit: false });
-        if (!submit) {
-          this.props.history.push({
-            pathname: '/list',
-            state: {
-              addUser: {
-                avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg",
-                id: res.data.id,
-                first_name:res.data.first_name,
-                last_name:res.data.last_name,
+      else {
+        let res = await addUser({ first_name, last_name });
+        if (res) {
+          this.setState({ submit: false });
+          if (!submit) {
+            this.props.history.push({
+              pathname: '/list',
+              state: {
+                addUser: {
+                  avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg",
+                  id: res.data.id,
+                  first_name: res.data.first_name,
+                  last_name: res.data.last_name,
+                },
               },
-            },
-          });
+            });
+          }
         }
       }
+    } catch (e) {
+      this.props.history.push({
+        pathname: '/somethingWrong',
+        state: e,
+      });
     }
   }
 
