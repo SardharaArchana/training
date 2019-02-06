@@ -1,0 +1,13 @@
+.text,.password,.email{
+    width: 70% !important
+}
+.number{
+    width: auto !important
+}
+.input{
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+.col{
+    padding-left: 0px !important;
+}
