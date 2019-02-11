@@ -11,6 +11,7 @@ const CheckBox = (props) => {
                     onClick={props.onClick}
                     value={props.value}
                     name={props.name}
+                    checked={props.checked}
                 />{props.value}
             </Label>
         </FormGroup>
@@ -19,3 +20,10 @@ const CheckBox = (props) => {
 }
 
 export default CheckBox;
+
+CheckBox.defaultProps={
+    value:'value',
+    name:'name',
+    checked:undefined,
+    onClick:()=>{console.log('clicked')}
+}

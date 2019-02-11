@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Row, Form, Col, CardHeader, CardBody } from 'reactstrap';
-import { checkEmail, checkPassword, checkConfirmPassword, checkPhnNo } from './validation/validation';
-import InputTag from './component/input/inputTag';
-import TextAreaTag from './component/textarea/textareaTag';
-import RadioButton from './component/radioButton/radioButton';
-import CheckBox from './component/checkbox/checkBox';
-import ButtonTag from './component/button/button';
+import { checkEmail, checkPassword, checkConfirmPassword, checkPhnNo } from '../../validation/validation';
+import InputTag from '../../component/input/inputTag';
+import TextAreaTag from '../../component/textarea/textareaTag';
+import RadioButton from '../../component/radioButton/radioButton';
+import CheckBox from '../../component/checkbox/checkBox';
+import ButtonTag from '../../component/button/button';
 
-import './App.css';
+import './registration.css';
 
 class App extends Component {
   constructor() {
@@ -21,6 +21,7 @@ class App extends Component {
         Gender: '',
         designation: []
       },
+      isChecked: false,
       isValidEmail: '',
       isValidPassword: '',
       isValidPhnNo: '',
@@ -30,16 +31,19 @@ class App extends Component {
     }
   }
 
-  componentDidMount(prevProps, prevState) {
-    console.log('..........', prevState);
-  }
-
   onChangeInput(e) {
-    this.setState({ empty: false });
     this.setState({ obj: { ...this.state.obj, [e.target.name]: e.target.value } });
+    if (e.target.name === 'Gender') {
+      if (e.target.value === '') {
+        this.setState({ isValidGender: 'invalid' });
+      } else {
+        this.setState({ isValidGender: 'valid' });
+      }
+    }
   }
 
   onChangeCheckBox(e, i) {
+    this.setState({ isChecked: true });
     let obj = this.state.obj.designation;
     obj[i - 1] = { [e.target.name]: e.target.checked };
     this.setState({
@@ -65,7 +69,7 @@ class App extends Component {
       }
       case 'number': {
         const number = checkPhnNo(e.target.value);
-        this.setState({ isValidPassword: number });
+        this.setState({ isValidPhnNo: number });
         break;
       }
       default: {
@@ -80,7 +84,7 @@ class App extends Component {
     const { email, password, cpassword, number, Gender } = this.state.obj;
     const a = email === '',
       b = password === '',
-      c = (password !== '' && cpassword === ''),
+      c = ((password !== '' && cpassword === '') || (password !== cpassword)),
       d = number === '',
       g = Gender === '';
     if (a || b || c || d || g) {
@@ -99,28 +103,46 @@ class App extends Component {
       if (g) {
         this.setState({ isValidGender: 'invalid' })
       }
-      console.log('empty')
     } else {
       await this.setState(prevState => ({
         User: [...prevState.User, this.state.obj]
       }))
-      this.props.history.push({
-        pathname: '/display',
-        state: this.state.User
+      this.setState({
+        obj: {
+          email: '',
+          password: '',
+          cpassword: '',
+          number: '',
+          Gender: '',
+          designation: [
+            { trainee: false },
+            { developer: false },
+            { employee: false }
+          ]
+        }, isChecked: false
       })
+      // this.props.history.push({
+      //   pathname: '/display',
+      //   state: this.state.User
+      // })
     }
   }
 
+  onEditClick() {
+    let user = this.state.User.pop();
+    this.setState({ obj: user });
+  }
+
   render() {
-    const { email, password, cpassword, number } = this.state.obj;
+    const { email, password, cpassword, number, Gender,designation} = this.state.obj;
     console.log(this.state.obj, 'user', this.state.User);
     return (
       <Row className='justify-content-md-center'>
         <Col sm='4'>
-          <Form onSubmit={(e) => this.onClick(e)} className='div'>
+          <Form className='div'>
             <CardHeader tag='h4'>Registration Form</CardHeader>
             <CardBody>
-              <Row>Email:</Row>
+              <Row className='Row'>Email:</Row>
               <InputTag
                 name='email'
                 type='email'
@@ -134,7 +156,7 @@ class App extends Component {
                   <p>enter email in form abcd@xyz.com</p> : null
               }
 
-              <Row>Password:</Row>
+              <Row className='Row'>Password:</Row>
               <InputTag
                 name='password'
                 type='password'
@@ -149,7 +171,7 @@ class App extends Component {
                   null
               }
 
-              <Row>Confirm Password:</Row>
+              <Row className='Row'>Confirm Password:</Row>
               <InputTag
                 name='cpassword'
                 type='password'
@@ -164,7 +186,7 @@ class App extends Component {
                   null
               }
 
-              <Row>Phone Number:</Row>
+              <Row className='Row'>Phone Number:</Row>
               <InputTag
                 name='number'
                 type='number'
@@ -178,24 +200,46 @@ class App extends Component {
                 null
               }
 
-              <Row>Gender:</Row>
-              <RadioButton name='Gender' value='Male' onChange={(e) => { this.onChangeInput(e) }} />
-              <RadioButton name='Gender' value='Female' onChange={(e) => { this.onChangeInput(e) }} />
+              <Row className='Row'>Gender:</Row>
+              <RadioButton
+                name='Gender'
+                value='Male'
+                checked={Gender === 'Male'}
+                onChange={(e) => { this.onChangeInput(e) }} />
+              <RadioButton
+                name='Gender'
+                value='Female'
+                checked={Gender === 'Female'}
+                onChange={(e) => { this.onChangeInput(e) }} />
               {this.state.isValidGender === 'invalid' ?
                 <p>select any one</p> :
                 null
               }
 
-              <Row className='row'> Designation:</Row>
-              <CheckBox name='trainee' value='trainee' onChange={(e) => { this.onChangeCheckBox(e, 1) }} />
-              <CheckBox name='employee' value='employee' onChange={(e) => { this.onChangeCheckBox(e, 2) }} />
-              <CheckBox name='developer' value='developer' onChange={(e) => { this.onChangeCheckBox(e, 3) }} />
+              <Row className='Row'> Designation:</Row>
+              <CheckBox
+                name='trainee'
+                value='trainee'
+                checked={designation[0]==={trainee:false}?false:designation[0]==={trainee:true}?true:null}
+                onChange={(e) => { this.onChangeCheckBox(e, 1) }}
+              />
+              <CheckBox
+                name='employee'
+                value='employee'
+                onChange={(e) => { this.onChangeCheckBox(e, 2) }}
+              />
+              <CheckBox
+                name='developer'
+                value='developer'
+                onChange={(e) => { this.onChangeCheckBox(e, 3) }}
+              />
 
-              <Row>Remarks:</Row>
+              <Row className='Row'>Remarks:</Row>
               <TextAreaTag name='remarks' onChange={(e) => { this.onChangeInput(e) }} />
 
-              <Row>
-                <ButtonTag type='submit' name='submit' />
+              <Row className='Row'>
+                <ButtonTag type='submit' name='submit' onClick={(e) => this.onClick(e)} />&nbsp;
+                <ButtonTag color='primary' name='Edit' onClick={() => this.onEditClick()} />
               </Row>
             </CardBody>
           </Form>

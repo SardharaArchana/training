@@ -1,11 +1,14 @@
 .row{
   margin-left: 0px !important;
+  margin-top: 20px;
 }
 .div{
-  margin-left: 20px;
-  padding: 10px;
+  padding: 20px;
   width: 100%;
-  margin: 20px;
+  margin-top: 50px;
   border: 1px solid #7875;
   border-radius: 4px;
+}
+p{
+  color: red;
 }
