@@ -1,34 +1,36 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Form, Col, CardHeader, CardBody } from 'reactstrap';
+
 import ButtonTag from '../../component/button/button';
+
+import './display.css'
 
 const Display = (props) => {
   return (
     <React.Fragment>
       <Row className='justify-content-md-center'>
-        <Col sm='auto'>
+        <Col sm='8'>
           <Form className='div'>
             <CardHeader tag='h4'>User Data</CardHeader>
             <CardBody>
-              {props.location ? <>
-                {props.location.state.map((u, i) => <React.Fragment key={i}>
-                  <Row>
-                    <Col>{u.email}</Col>
-                    <Col>{u.password}</Col>
-                    <Col>{u.number}</Col>
-                    <Col>{u.Gender}</Col>
-                    {/* <div>{props.location.state.designation.map((u, i) => <div key={i}>{u.i}</div>)}</div> */}
-                    <Col>
-                      <li  >Edit</li> | &nbsp;
-                    <li  >Delete</li>
-                    </Col>
-                  </Row>
-                </React.Fragment>)}</> : null}
-              <Link to='/'>
-                <ButtonTag color='primary'
-                  name='Back' />
-              </Link>
+              {props.data.map((u, i) => <React.Fragment key={i}>
+                <Row className='RowStyle'>
+                  <Col md='4' className='ColStyle'>{u.email}</Col>
+                  <Col sm='2' className='ColStyle'>{u.password}</Col>
+                  <Col sm='2' className='ColStyle'>{u.number}</Col>
+                  <Col sm='1' className='ColStyle'>{u.Gender}</Col>
+                  <Col sm='2' className='ColStyle'>{u.Designation.map((l, i) => <React.Fragment key={i}>
+                    <Row> {l}</Row>
+                  </React.Fragment>
+                  )}</Col>
+                  <Col sm='1' className='ColStyle'>
+                    <ButtonTag color='primary' name='edit' onClick={() => { props.editUser(u, i) }} />
+                  </Col>
+                </Row>
+              </React.Fragment>)}
+              <Link to='/home'>
+                <ButtonTag name='new User' onClick={props.onClick} /></Link>
             </CardBody>
           </Form>
         </Col>

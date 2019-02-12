@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Form, Col, CardHeader, CardBody } from 'reactstrap';
-import { checkEmail, checkPassword, checkConfirmPassword, checkPhnNo } from '../../validation/validation';
+
 import InputTag from '../../component/input/inputTag';
 import TextAreaTag from '../../component/textarea/textareaTag';
 import RadioButton from '../../component/radioButton/radioButton';
@@ -10,8 +10,8 @@ import ButtonTag from '../../component/button/button';
 import './registration.css';
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       obj: {
         email: '',
@@ -19,123 +19,96 @@ class App extends Component {
         cpassword: '',
         number: '',
         Gender: '',
-        designation: []
+        Designation: ['', '', '']
       },
-      isChecked: false,
-      isValidEmail: '',
-      isValidPassword: '',
-      isValidPhnNo: '',
-      isValidConfirmPassword: '',
-      isValidGender: '',
-      User: [],
+      isValid: {},
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.getEditUser !== null) {
+      console.log('prop', this.props.getEditUser)
+      this.setState({ obj: this.props.getEditUser });
     }
   }
 
   onChangeInput(e) {
     this.setState({ obj: { ...this.state.obj, [e.target.name]: e.target.value } });
-    if (e.target.name === 'Gender') {
-      if (e.target.value === '') {
-        this.setState({ isValidGender: 'invalid' });
-      } else {
-        this.setState({ isValidGender: 'valid' });
-      }
-    }
   }
 
   onChangeCheckBox(e, i) {
-    this.setState({ isChecked: true });
-    let obj = this.state.obj.designation;
-    obj[i - 1] = { [e.target.name]: e.target.checked };
+    let obj = this.state.obj.Designation;
+    obj[i] = e.target.checked ? obj[i] = e.target.value : obj[i] = '';
     this.setState({
-      obj: { ...this.state.obj, designation: obj }
+      obj: { ...this.state.obj, Designation: obj }
     });
   }
 
   onBlur(e) {
+    let regexp;
     switch (e.target.name) {
       case 'email': {
-        const email = checkEmail(e.target.value);
-        this.setState({ isValidEmail: email });
+        regexp = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
         break;
       }
       case 'password': {
-        const password = checkPassword(e.target.value);
-        this.setState({ isValidPassword: password });
+        regexp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
         break;
-      } case 'cpassword': {
-        const cpassword = checkConfirmPassword(e.target.value, this.state.obj.password);
-        this.setState({ isValidConfirmPassword: cpassword });
+      }
+      case 'cpassword': {
+        if (this.state.obj.password !== e.target.value) {
+          regexp = `^${this.state.obj.password}$`;
+        }
         break;
       }
       case 'number': {
-        const number = checkPhnNo(e.target.value);
-        this.setState({ isValidPhnNo: number });
+        regexp = /^[ ()+]*([0-9][ ()+]*){10}$/;
         break;
       }
       default: {
         console.log('onchange');
       }
     }
-
-  }
-
-  async onClick(e) {
-    e.preventDefault();
-    const { email, password, cpassword, number, Gender } = this.state.obj;
-    const a = email === '',
-      b = password === '',
-      c = ((password !== '' && cpassword === '') || (password !== cpassword)),
-      d = number === '',
-      g = Gender === '';
-    if (a || b || c || d || g) {
-      if (a) {
-        this.setState({ isValidEmail: 'invalid' });
-      }
-      if (b) {
-        this.setState({ isValidPassword: 'invalid' });
-      }
-      if (c) {
-        this.setState({ isValidConfirmPassword: 'invalid' });
-      }
-      if (d) {
-        this.setState({ isValidPhnNo: 'invalid' });
-      }
-      if (g) {
-        this.setState({ isValidGender: 'invalid' })
-      }
+    if (e.target.value.match(regexp)) {
+      this.setState({ isValid: { ...this.state.isValid, [e.target.name]: true } });
     } else {
-      await this.setState(prevState => ({
-        User: [...prevState.User, this.state.obj]
-      }))
-      this.setState({
-        obj: {
-          email: '',
-          password: '',
-          cpassword: '',
-          number: '',
-          Gender: '',
-          designation: [
-            { trainee: false },
-            { developer: false },
-            { employee: false }
-          ]
-        }, isChecked: false
-      })
-      // this.props.history.push({
-      //   pathname: '/display',
-      //   state: this.state.User
-      // })
+      this.setState({ isValid: { ...this.state.isValid, [e.target.name]: false } });
     }
   }
 
-  onEditClick() {
-    let user = this.state.User.pop();
-    this.setState({ obj: user });
+  onClick(e) {
+    e.preventDefault();
+    const { email, password, cpassword, number, Gender, Designation } = this.state.obj;
+    let obj = this.state.isValid;
+    const confirmpsd = ((password !== '' && cpassword === '') || (password !== cpassword));
+    const arr = [
+      { name: 'email', value: email },
+      { name: 'password', value: password },
+      { name: 'cpassword', value: cpassword },
+      { name: 'number', value: number },
+      { name: 'Gender', value: Gender },
+    ];
+
+    if (email === '' || password === '' || number === '' || Gender === '' || confirmpsd) {
+      arr.map((a, i) => {
+        if (a.name === 'cpassword' ? confirmpsd : a.value === '') {
+          obj[a.name] = false;
+          this.setState({ isValid: obj });
+        }
+        return 'x';
+      })
+    } else {
+      let obj = { email, password, number, Gender, Designation };
+      this.props.user(obj);
+    }
   }
 
   render() {
-    const { email, password, cpassword, number, Gender,designation} = this.state.obj;
-    console.log(this.state.obj, 'user', this.state.User);
+    const { email, password, cpassword, number, Gender, Designation } = this.state.obj;
+    console.log(this.state.obj, 'va', this.state.isValid);
+    const gender = [{ value: 'Female' }, { value: 'Male' }];
+    const designation = [{ name: 'trainee', value: 'trainee' }, { name: 'employee', value: 'employee' }, { name: 'developer', value: 'developer' }];
     return (
       <Row className='justify-content-md-center'>
         <Col sm='4'>
@@ -149,12 +122,9 @@ class App extends Component {
                 value={email}
                 onBlur={(e) => this.onBlur(e)}
                 onChange={(e) => { this.onChangeInput(e) }}
-                validation={this.state.isValidEmail}
+                validation={this.state.isValid.email}
+                errorMsg='enter email in form abcd@xyz.com'
               />
-              {this.state.isValidEmail === 'invalid' && email === '' ? <p>enter value</p> :
-                this.state.isValidEmail === 'invalid' ?
-                  <p>enter email in form abcd@xyz.com</p> : null
-              }
 
               <Row className='Row'>Password:</Row>
               <InputTag
@@ -163,13 +133,9 @@ class App extends Component {
                 value={password}
                 onBlur={(e) => this.onBlur(e)}
                 onChange={(e) => { this.onChangeInput(e) }}
-                validation={this.state.isValidPassword}
+                validation={this.state.isValid.password}
+                errorMsg='enter password with Min 8 characters, at least 1 letter and 1 number'
               />
-              {this.state.isValidPassword === 'invalid' && password === '' ? <p>enter value</p> :
-                this.state.isValidPassword === 'invalid' ?
-                  <p>enter password with Min 8 characters, at least 1 letter and 1 number</p> :
-                  null
-              }
 
               <Row className='Row'>Confirm Password:</Row>
               <InputTag
@@ -178,13 +144,9 @@ class App extends Component {
                 value={cpassword}
                 onBlur={(e) => this.onBlur(e)}
                 onChange={(e) => { this.onChangeInput(e) }}
-                validation={this.state.isValidConfirmPassword}
+                validation={this.state.isValid.cpassword}
+                errorMsg='enter same password'
               />
-              {this.state.isValidConfirmPassword === 'invalid' && password !== '' && cpassword === '' ? <p>enter value</p> :
-                this.state.isValidConfirmPassword === 'invalid' ?
-                  <p>enter same password</p> :
-                  null
-              }
 
               <Row className='Row'>Phone Number:</Row>
               <InputTag
@@ -193,53 +155,41 @@ class App extends Component {
                 value={number}
                 onBlur={(e) => this.onBlur(e)}
                 onChange={(e) => { this.onChangeInput(e) }}
-                validation={this.state.isValidPhnNo}
+                validation={this.state.isValid.number}
+                errorMsg='must enter 10 number'
               />
-              {this.state.isValidPhnNo === 'invalid' ?
-                <p>must enter 10 numbers</p> :
-                null
-              }
 
               <Row className='Row'>Gender:</Row>
-              <RadioButton
-                name='Gender'
-                value='Male'
-                checked={Gender === 'Male'}
-                onChange={(e) => { this.onChangeInput(e) }} />
-              <RadioButton
-                name='Gender'
-                value='Female'
-                checked={Gender === 'Female'}
-                onChange={(e) => { this.onChangeInput(e) }} />
-              {this.state.isValidGender === 'invalid' ?
+              {gender.map((gender, i) => <React.Fragment key={i}>
+                <RadioButton
+                  name='Gender'
+                  value={gender.value}
+                  checked={Gender === gender.value}
+                  onChange={(e) => { this.onChangeInput(e) }}
+                />
+              </React.Fragment>)}
+              {this.state.isValid.Gender === false ?
                 <p>select any one</p> :
-                null
-              }
+                null}
 
               <Row className='Row'> Designation:</Row>
-              <CheckBox
-                name='trainee'
-                value='trainee'
-                checked={designation[0]==={trainee:false}?false:designation[0]==={trainee:true}?true:null}
-                onChange={(e) => { this.onChangeCheckBox(e, 1) }}
-              />
-              <CheckBox
-                name='employee'
-                value='employee'
-                onChange={(e) => { this.onChangeCheckBox(e, 2) }}
-              />
-              <CheckBox
-                name='developer'
-                value='developer'
-                onChange={(e) => { this.onChangeCheckBox(e, 3) }}
-              />
+              {designation.map((deg, i) => <React.Fragment key={i}>
+                <CheckBox
+                  name={deg.name}
+                  value={deg.value}
+                  checked={Designation[i] === deg.value}
+                  onChange={(e) => { this.onChangeCheckBox(e, i) }}
+                />
+              </React.Fragment>)}
+              {this.state.isValid.Designation === false ?
+                <p>select any one</p> :
+                null}
 
               <Row className='Row'>Remarks:</Row>
               <TextAreaTag name='remarks' onChange={(e) => { this.onChangeInput(e) }} />
 
               <Row className='Row'>
-                <ButtonTag type='submit' name='submit' onClick={(e) => this.onClick(e)} />&nbsp;
-                <ButtonTag color='primary' name='Edit' onClick={() => this.onEditClick()} />
+                <ButtonTag type='submit' name='submit' onClick={(e) => this.onClick(e)} />
               </Row>
             </CardBody>
           </Form>

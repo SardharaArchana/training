@@ -8,11 +8,9 @@ const CheckBox = (props) => {
                 <Input className='checkbox'
                     type='checkbox'
                     onChange={props.onChange}
-                    onClick={props.onClick}
                     value={props.value}
-                    name={props.name}
                     checked={props.checked}
-                />{props.value}
+                />{props.name}
             </Label>
         </FormGroup>
 
@@ -25,5 +23,4 @@ CheckBox.defaultProps={
     value:'value',
     name:'name',
     checked:undefined,
-    onClick:()=>{console.log('clicked')}
 }
