@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Row, Form, Col, CardHeader, CardBody } from 'reactstrap';
+import { Row, Col, CardHeader, CardBody } from 'reactstrap';
 
 import InputTag from '../../component/input/inputTag';
 import TextAreaTag from '../../component/textarea/textareaTag';
 import RadioButton from '../../component/radioButton/radioButton';
 import CheckBox from '../../component/checkbox/checkBox';
 import ButtonTag from '../../component/button/button';
+import { validation, emptyValue } from '../../utils/validation';
 
 import './registration.css';
 
@@ -19,16 +20,21 @@ class App extends Component {
         cpassword: '',
         number: '',
         Gender: '',
-        Designation: ['', '', '']
+        remarks: '',
+        Designation: []
       },
       isValid: {},
     }
+    this.gender = [{ value: 'Female' }, { value: 'Male' }];
+    this.designation = [{ name: 'trainee', value: 'trainee' }, { name: 'employee', value: 'employee' }, { name: 'developer', value: 'developer' }];
+
   }
 
   componentDidMount() {
     if (this.props.getEditUser !== null) {
-      console.log('prop', this.props.getEditUser)
-      this.setState({ obj: this.props.getEditUser });
+      console.log('register prop', this.props.getEditUser);
+      let user = { ...this.props.getEditUser, cpassword: this.props.getEditUser.password };
+      this.setState({ obj: user });
     }
   }
 
@@ -37,69 +43,46 @@ class App extends Component {
   }
 
   onChangeCheckBox(e, i) {
-    let obj = this.state.obj.Designation;
-    obj[i] = e.target.checked ? obj[i] = e.target.value : obj[i] = '';
+    let designation = this.state.obj.Designation;
+    if (e.target.checked) {
+      designation = [...designation, e.target.value];
+    } else {
+      designation.splice(i, 1);
+    }
+    let valid = this.validCheckBox(designation);
     this.setState({
-      obj: { ...this.state.obj, Designation: obj }
+      obj: { ...this.state.obj, Designation: designation },
+      isValid: { ...this.state.isValid, Designation: valid }
     });
+
+  }
+
+  validCheckBox(designation) {
+    if (designation.length === 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   onBlur(e) {
     let regexp;
-    switch (e.target.name) {
-      case 'email': {
-        regexp = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-        break;
-      }
-      case 'password': {
-        regexp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-
-        break;
-      }
-      case 'cpassword': {
-        if (this.state.obj.password !== e.target.value) {
-          regexp = `^${this.state.obj.password}$`;
-        }
-        break;
-      }
-      case 'number': {
-        regexp = /^[ ()+]*([0-9][ ()+]*){10}$/;
-        break;
-      }
-      default: {
-        console.log('onchange');
-      }
+    if (e.target.name === 'cpassword') {
+      regexp = `^${this.state.obj.password}$`;
     }
-    if (e.target.value.match(regexp)) {
-      this.setState({ isValid: { ...this.state.isValid, [e.target.name]: true } });
-    } else {
-      this.setState({ isValid: { ...this.state.isValid, [e.target.name]: false } });
-    }
+    let valid = validation(e, regexp);
+    this.setState({ isValid: { ...this.state.isValid, [e.target.name]: valid } })
   }
 
-  onClick(e) {
-    e.preventDefault();
-    const { email, password, cpassword, number, Gender, Designation } = this.state.obj;
-    let obj = this.state.isValid;
-    const confirmpsd = ((password !== '' && cpassword === '') || (password !== cpassword));
-    const arr = [
-      { name: 'email', value: email },
-      { name: 'password', value: password },
-      { name: 'cpassword', value: cpassword },
-      { name: 'number', value: number },
-      { name: 'Gender', value: Gender },
-    ];
-
-    if (email === '' || password === '' || number === '' || Gender === '' || confirmpsd) {
-      arr.map((a, i) => {
-        if (a.name === 'cpassword' ? confirmpsd : a.value === '') {
-          obj[a.name] = false;
-          this.setState({ isValid: obj });
-        }
-        return 'x';
-      })
-    } else {
-      let obj = { email, password, number, Gender, Designation };
+  onClick() {
+    let user = this.state.obj;
+    let res = emptyValue(user);
+    if (res !== null) {
+      this.setState({ isValid: res });
+    }
+    else {
+      const { email, password, number, Gender, Designation,remarks } = this.state.obj;
+      let obj = { email, password, number, Gender, Designation,remarks };
       this.props.user(obj);
     }
   }
@@ -107,92 +90,121 @@ class App extends Component {
   render() {
     const { email, password, cpassword, number, Gender, Designation } = this.state.obj;
     console.log(this.state.obj, 'va', this.state.isValid);
-    const gender = [{ value: 'Female' }, { value: 'Male' }];
-    const designation = [{ name: 'trainee', value: 'trainee' }, { name: 'employee', value: 'employee' }, { name: 'developer', value: 'developer' }];
     return (
       <Row className='justify-content-md-center'>
-        <Col sm='4'>
-          <Form className='div'>
-            <CardHeader tag='h4'>Registration Form</CardHeader>
-            <CardBody>
-              <Row className='Row'>Email:</Row>
-              <InputTag
-                name='email'
-                type='email'
-                value={email}
-                onBlur={(e) => this.onBlur(e)}
-                onChange={(e) => { this.onChangeInput(e) }}
-                validation={this.state.isValid.email}
-                errorMsg='enter email in form abcd@xyz.com'
-              />
+        <Col sm='5' className='div'>
+          <CardHeader tag='h4'>Registration Form</CardHeader>
+          <CardBody>
+            <Row className='Row'>Email:</Row>
+            <InputTag
+              initialProp={{
+                name: 'email',
+                type: 'email',
+                value: email,
+                placeholder: 'enter email',
+                errormsg: 'enter email in form abcd@xyz.com'
+              }}
+              validation={this.state.isValid.email}
+              onBlur={(e) => this.onBlur(e)}
+              onChange={(e) => { this.onChangeInput(e) }}
+            />
 
-              <Row className='Row'>Password:</Row>
-              <InputTag
-                name='password'
-                type='password'
-                value={password}
-                onBlur={(e) => this.onBlur(e)}
-                onChange={(e) => { this.onChangeInput(e) }}
-                validation={this.state.isValid.password}
-                errorMsg='enter password with Min 8 characters, at least 1 letter and 1 number'
-              />
+            <Row className='Row'>Password:</Row>
+            <InputTag
+              initialProp={{
+                name: 'password',
+                type: 'password',
+                value: password,
+                placeholder: 'enter password',
+                errormsg: 'enter password with Min 8 characters, at least 1 letter and 1 number'
+              }}
+              validation={this.state.isValid.password}
+              onBlur={(e) => this.onBlur(e)}
+              onChange={(e) => { this.onChangeInput(e) }}
+            />
 
-              <Row className='Row'>Confirm Password:</Row>
-              <InputTag
-                name='cpassword'
-                type='password'
-                value={cpassword}
-                onBlur={(e) => this.onBlur(e)}
-                onChange={(e) => { this.onChangeInput(e) }}
-                validation={this.state.isValid.cpassword}
-                errorMsg='enter same password'
-              />
+            <Row className='Row'>Confirm Password:</Row>
+            <InputTag
+              initialProp={{
+                name: 'cpassword',
+                type: 'password',
+                value: cpassword,
+                placeholder: 'enter same password',
+                errormsg: 'enter same password'
+              }}
+              validation={this.state.isValid.cpassword}
+              onBlur={(e) => this.onBlur(e)}
+              onChange={(e) => { this.onChangeInput(e) }}
+            />
 
-              <Row className='Row'>Phone Number:</Row>
-              <InputTag
-                name='number'
-                type='number'
-                value={number}
-                onBlur={(e) => this.onBlur(e)}
-                onChange={(e) => { this.onChangeInput(e) }}
-                validation={this.state.isValid.number}
-                errorMsg='must enter 10 number'
-              />
+            <Row className='Row'>Phone Number:</Row>
+            <InputTag
+              initialProp={{
+                name: 'number',
+                type: 'number',
+                value: number,
+                placeholder: 'enter phone number',
+                errormsg: 'must enter 10 number'
+              }}
+              validation={this.state.isValid.number}
+              onBlur={(e) => this.onBlur(e)}
+              onChange={(e) => { this.onChangeInput(e) }}
+            />
 
-              <Row className='Row'>Gender:</Row>
-              {gender.map((gender, i) => <React.Fragment key={i}>
-                <RadioButton
-                  name='Gender'
-                  value={gender.value}
-                  checked={Gender === gender.value}
-                  onChange={(e) => { this.onChangeInput(e) }}
-                />
-              </React.Fragment>)}
-              {this.state.isValid.Gender === false ?
-                <p>select any one</p> :
+            <Row className='Row'>Gender:
+            {this.state.isValid.Gender === false ?
+                <span>*required</span> :
                 null}
+            </Row>
+            {this.gender.map((g, i) => <React.Fragment key={i}>
+              <RadioButton
+                initialProp={{
+                  name: 'Gender',
+                  value: g.value,
+                  checked: Gender === g.value
+                }}
+                onChange={(e) => { this.onChangeInput(e) }}
+                onBlur={(e) => this.onBlur(e)}
+              />
+            </React.Fragment>)}
 
-              <Row className='Row'> Designation:</Row>
-              {designation.map((deg, i) => <React.Fragment key={i}>
-                <CheckBox
-                  name={deg.name}
-                  value={deg.value}
-                  checked={Designation[i] === deg.value}
-                  onChange={(e) => { this.onChangeCheckBox(e, i) }}
-                />
-              </React.Fragment>)}
-              {this.state.isValid.Designation === false ?
-                <p>select any one</p> :
+
+            <Row className='Row'> Designation:
+            {this.state.isValid.Designation === false ?
+                <p>*required</p> :
                 null}
+            </Row>
+            {this.designation.map((d, i) => <React.Fragment key={i}>
+              <CheckBox
+                initialProp={{
+                  name: d.name,
+                  value: d.value,
+                  checked: Designation.includes(d.value)
+                }}
+                onChange={(e) => { this.onChangeCheckBox(e, i) }}
+                onBlur={(e) => this.onBlur(e)}
+              />
+            </React.Fragment>)}
 
-              <Row className='Row'>Remarks:</Row>
-              <TextAreaTag name='remarks' onChange={(e) => { this.onChangeInput(e) }} />
+            <Row className='Row'>Remarks:
+            {this.state.isValid.remarks === false ?
+                <p>*required</p> :
+                null}
+            </Row>
+            <TextAreaTag
+              name='remarks'
+              onChange={(e) => { this.onChangeInput(e) }}
+              onBlur={(e) => this.onBlur(e)}
+            />
 
-              <Row className='Row'>
-                <ButtonTag type='submit' name='submit' onClick={(e) => this.onClick(e)} />
-              </Row>
-            </CardBody>
-          </Form>
+            <Row className='Row'>
+              <ButtonTag
+                type='submit'
+                name='submit'
+                onClick={() => this.onClick()}
+              />
+            </Row>
+          </CardBody>
         </Col>
       </Row>
     );

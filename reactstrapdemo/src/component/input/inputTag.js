@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Row, Col } from 'reactstrap';
+
 import './inputTag.css';
 
 const InputTag = (props) => {
@@ -9,21 +10,19 @@ const InputTag = (props) => {
   return (
     <Row className='input'>
       <Col sm='12' className='col'>
-        <Input className={`${props.className} `}
+        <Input
+          {...props.initialProp}
+          className={props.className} 
           style={props.validation === true ? valid : props.validation === false ? invalid : null}
-          name={props.name}
-          type={props.type}
-          placeholder={`enter ${props.name}`}
           onBlur={props.onBlur}
           onChange={props.onChange}
-          value={props.value}
         >
         </Input>
         <React.Fragment >
           <span style={{ color: 'red' }}>
-            {(props.validation === false && props.value === '') ?
+            {(props.validation === false && props.initialProp.value === '') ?
               <p >please enter  {props.name}</p> :
-              props.validation === false ? props.errorMsg : null}</span>
+              props.validation === false ? props.initialProp.errormsg : null}</span>
         </React.Fragment>
       </Col>
     </Row>
@@ -33,16 +32,29 @@ const InputTag = (props) => {
 export default InputTag;
 
 InputTag.defaultProps = {
-  name: 'value',
-  type: 'text',
-  className: 'input',
+  initialProp: {
+    name: 'value',
+    type: 'text',
+    errormsg: '',
+    value: '',
+    placeholder:'enter value'
+  },
+  validation: undefined,
+  className: '',
   onBlur: () => { console.log('onBulr') },
   onChange: () => { console.log('onChange') },
 }
 
 InputTag.propTypes = {
-  name: PropTypes.string,
-  type: PropTypes.string,
+  initialProp: PropTypes.shape({
+  name:PropTypes.string,
+  type:PropTypes.string,
+  value:PropTypes.string,
+  placeholder:PropTypes.string,
+  errormsg:PropTypes.string
+}),
+  initialProp: PropTypes.object,
+  validation: PropTypes.string,
   className: PropTypes.string,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,

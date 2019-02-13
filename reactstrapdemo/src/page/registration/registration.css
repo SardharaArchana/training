@@ -8,7 +8,7 @@
     border: 1px solid #7875;
     border-radius: 4px;
   }
-  p{
+  p,span{
     color: red;
   }
   .row{

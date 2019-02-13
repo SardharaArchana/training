@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import App from '../registration/registration';
 import Display from '../display/display';
 
-import './home.css';
-
 class Home extends Component {
   constructor() {
     super();
@@ -17,20 +15,22 @@ class Home extends Component {
 
   editUser(user, i) {
     const array = this.state.User;
-    const res = this.state.User.filter(u => {
+    array.filter(u => {
       if (u.email === user.email &&
         u.password === user.password &&
         u.number === user.number &&
         u.Gender === user.Gender &&
         u.Designation === user.Designation
-        )
-        array.splice(i, 1);
-        console.log(array.splice(i, 1))
-      this.setState({ User: array,editUser:u });
-      return 'x';
+      ) {
+        this.setState({ editUser: u });
+        return null;
+      }
+      else {
+        return null;
+      }
     })
-    console.log('res',res)
-    this.setState({ isDisplay: false });
+    array.splice(i, 1);
+    this.setState({ isDisplay: false, User: array });
   }
 
   newuser() {
@@ -38,20 +38,18 @@ class Home extends Component {
   }
 
   setUser(user) {
-    this.setState(prevState => ({
-      User: [...prevState.User, user]
-    }));
-    this.setState({ isDisplay: true });
+    this.setState({ User: [...this.state.User, user], isDisplay: true });
   }
 
   render() {
-    console.log("state.....", this.state);
+    console.log('state..',this.state)
     return (
       <React.Fragment>
-        {this.state.isDisplay ? <Display data={this.state.User}
-          editUser={(user, i) => this.editUser(user, i)}
-          onClick={() => { this.newuser() }}
-        /> :
+        {this.state.isDisplay ?
+          <Display data={this.state.User}
+            editUser={(user, i) => this.editUser(user, i)}
+            onClick={() => { this.newuser() }}
+          /> :
           <App user={(user) => this.setUser(user)} getEditUser={this.state.editUser} />
         }
       </React.Fragment >
