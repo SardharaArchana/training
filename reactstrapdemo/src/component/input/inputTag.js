@@ -53,7 +53,6 @@ InputTag.propTypes = {
   placeholder:PropTypes.string,
   errormsg:PropTypes.string
 }),
-  initialProp: PropTypes.object,
   validation: PropTypes.string,
   className: PropTypes.string,
   onBlur: PropTypes.func,
