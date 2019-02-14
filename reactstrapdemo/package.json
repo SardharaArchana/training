@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.2.1",
-    "date-fns": "^2.0.0-alpha.25",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

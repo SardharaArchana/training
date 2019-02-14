@@ -12,16 +12,17 @@ const InputTag = (props) => {
       <Col sm='12' className='col'>
         <Input
           {...props.initialProp}
-          className={props.className} 
+          className={props.className}
           style={props.validation === true ? valid : props.validation === false ? invalid : null}
           onBlur={props.onBlur}
           onChange={props.onChange}
+          onClick={props.onClick}
         >
         </Input>
         <React.Fragment >
           <span style={{ color: 'red' }}>
             {(props.validation === false && props.initialProp.value === '') ?
-              <p >please enter  {props.name}</p> :
+              <p >{props.initialProp.empty}</p> :
               props.validation === false ? props.initialProp.errormsg : null}</span>
         </React.Fragment>
       </Col>
@@ -36,25 +37,28 @@ InputTag.defaultProps = {
     name: 'value',
     type: 'text',
     errormsg: '',
+    empty: '',
     value: '',
-    placeholder:'enter value'
+    placeholder: 'enter value'
   },
   validation: undefined,
   className: '',
-  onBlur: () => { console.log('onBulr') },
-  onChange: () => { console.log('onChange') },
+  onBlur: () => { },
+  onChange: () => { },
+  onClick: () => { },
 }
 
 InputTag.propTypes = {
   initialProp: PropTypes.shape({
-  name:PropTypes.string,
-  type:PropTypes.string,
-  value:PropTypes.string,
-  placeholder:PropTypes.string,
-  errormsg:PropTypes.string
-}),
+    name: PropTypes.string,
+    type: PropTypes.string,
+    value: PropTypes.string,
+    placeholder: PropTypes.string,
+    errormsg: PropTypes.string
+  }),
   validation: PropTypes.bool,
   className: PropTypes.string,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
+  onClick: PropTypes.func,
 }

@@ -6,6 +6,7 @@ import TextAreaTag from '../../component/textarea/textareaTag';
 import RadioButton from '../../component/radioButton/radioButton';
 import CheckBox from '../../component/checkbox/checkBox';
 import ButtonTag from '../../component/button/button';
+import PriceRange from '../../component/priceRange/priceRange';
 import { validation, emptyValue } from '../../utils/validation';
 
 import './registration.css';
@@ -21,6 +22,8 @@ class App extends Component {
         number: '',
         Gender: '',
         remarks: '',
+        from: '',
+        to: '',
         Designation: []
       },
       isValid: {},
@@ -46,38 +49,44 @@ class App extends Component {
     this.onChangeInput(e);
     const { password, cpassword } = this.state.obj;
     let valid = ((password !== '' && cpassword !== '') && (cpassword !== password));
-    this.setState({isValid:{ ...this.state.isValid,cpassword:valid}});
+    this.setState({ isValid: { ...this.state.isValid, cpassword: valid } });
   }
 
-  onChangeCheckBox(e, i) {
+  onChangeCheckBox(e) {
     let designation = this.state.obj.Designation;
+    let valid = designation.length === 0 ? false : true;
     if (e.target.checked) {
       designation = [...designation, e.target.value];
     } else {
-      designation.splice(i, 1);
+      designation.splice(designation.indexOf(e.target.value), 1);
     }
-    let valid = this.validCheckBox(designation);
     this.setState({
       obj: { ...this.state.obj, Designation: designation },
       isValid: { ...this.state.isValid, Designation: valid }
     });
-
   }
 
-  validCheckBox(designation) {
-    if (designation.length === 0) {
-      return false;
-    } else {
-      return true;
+  checkValueRange(e) {
+    const { from, to } = this.state.obj;
+    let price = this.state.isValid.priceRange;
+    let val;
+    if (Number(from) < Number(to) && (to !== '' && from !== '')) {
+      this.setState({ isValid: { priceRange: { from: true, to: true } } });
+    }
+    else {
+      if (e.target.name === 'to' && from !== '') {
+        val = Number(to) > Number(from) ? true : false;
+      }
+      if (e.target.name === 'from' && to !== '') {
+        val = Number(to) > Number(from) ? true : false;
+      }
+      price = { ...price, [e.target.name]: val }
+      this.setState({ isValid: { priceRange: price } });
     }
   }
 
   onBlur(e) {
-    let regexp;
-    if (e.target.name === 'cpassword') {
-      regexp = `^${this.state.obj.password}$`;
-    }
-    let valid = validation(e, regexp);
+    let valid = validation(e, this.state.obj);
     this.setState({ isValid: { ...this.state.isValid, [e.target.name]: valid } })
   }
 
@@ -109,7 +118,8 @@ class App extends Component {
                 type: 'email',
                 value: email,
                 placeholder: 'enter email',
-                errormsg: 'enter email in form abcd@xyz.com'
+                errormsg: 'enter email in form abcd@xyz.com',
+                empty: '*required'
               }}
               validation={this.state.isValid.email}
               onBlur={(e) => this.onBlur(e)}
@@ -123,7 +133,8 @@ class App extends Component {
                 type: 'password',
                 value: password,
                 placeholder: 'enter password',
-                errormsg: 'enter password with Min 8 characters, at least 1 letter and 1 number'
+                errormsg: 'enter password with Min 8 characters, at least 1 letter and 1 number',
+                empty: '*required'
               }}
               validation={this.state.isValid.password}
               onBlur={(e) => this.onBlur(e)}
@@ -137,7 +148,8 @@ class App extends Component {
                 type: 'password',
                 value: cpassword,
                 placeholder: 'enter same password',
-                errormsg: 'enter same password'
+                errormsg: 'enter same password',
+                empty: '*required'
               }}
               validation={this.state.isValid.cpassword}
               onBlur={(e) => this.onBlur(e)}
@@ -151,7 +163,8 @@ class App extends Component {
                 type: 'number',
                 value: number,
                 placeholder: 'enter phone number',
-                errormsg: 'must enter 10 number'
+                errormsg: 'must enter 10 number',
+                empty: '*required'
               }}
               validation={this.state.isValid.number}
               onBlur={(e) => this.onBlur(e)}
@@ -188,8 +201,7 @@ class App extends Component {
                   value: d.value,
                   checked: Designation.includes(d.value)
                 }}
-                onChange={(e) => { this.onChangeCheckBox(e, i) }}
-              // onBlur={(e) => this.onBlur(e,{[e.target.name]:'Designation'})}
+                onChange={(e) => { this.onChangeCheckBox(e) }}
               />
             </React.Fragment>)}
 
@@ -205,6 +217,14 @@ class App extends Component {
             />
 
             <Row className='Row'>
+              <PriceRange
+                valid={this.state.isValid.priceRange}
+                onChange={(e) => { this.onChangeInput(e) }}
+                checkValueRange={(e) => { this.checkValueRange(e) }}
+              />
+            </Row>
+
+            <Row className='Row'>
               <ButtonTag
                 type='submit'
                 name='submit'
@@ -212,6 +232,7 @@ class App extends Component {
                 onBlur={(e) => this.onBlur(e)}
               />
             </Row>
+
           </CardBody>
         </Col>
       </Row>
