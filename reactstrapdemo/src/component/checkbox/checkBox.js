@@ -33,10 +33,10 @@ CheckBox.defaultProps = {
 
 CheckBox.propTypes = {
   initialProp: PropTypes.shape({
-    name:PropTypes.string,
-    value:PropTypes.string,
-    checked:PropTypes.bool
+    name: PropTypes.string,
+    value: PropTypes.string,
+    checked: PropTypes.bool
   }),
-  onBlur: PropTypes.func,
   onChange: PropTypes.func,
+  onBlur: PropTypes.func,
 }

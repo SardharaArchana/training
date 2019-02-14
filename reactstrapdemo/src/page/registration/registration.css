@@ -1,16 +1,16 @@
 .Row{
     margin-top: 20px;
   }
-  .div{
+.div{
     padding: 20px;
     width: 100%;
     margin-top: 50px;
     border: 1px solid #7875;
     border-radius: 4px;
   }
-  p,span{
+.color-red{
     color: red;
   }
-  .row{
+.row{
     margin-left: 0px !important
   }

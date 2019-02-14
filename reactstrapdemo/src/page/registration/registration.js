@@ -42,6 +42,13 @@ class App extends Component {
     this.setState({ obj: { ...this.state.obj, [e.target.name]: e.target.value } });
   }
 
+  onChangePassword(e) {
+    this.onChangeInput(e);
+    const { password, cpassword } = this.state.obj;
+    let valid = ((password !== '' && cpassword !== '') && (cpassword !== password));
+    this.setState({isValid:{ ...this.state.isValid,cpassword:valid}});
+  }
+
   onChangeCheckBox(e, i) {
     let designation = this.state.obj.Designation;
     if (e.target.checked) {
@@ -81,8 +88,8 @@ class App extends Component {
       this.setState({ isValid: res });
     }
     else {
-      const { email, password, number, Gender, Designation,remarks } = this.state.obj;
-      let obj = { email, password, number, Gender, Designation,remarks };
+      const { email, password, number, Gender, Designation, remarks } = this.state.obj;
+      let obj = { email, password, number, Gender, Designation, remarks };
       this.props.user(obj);
     }
   }
@@ -120,7 +127,7 @@ class App extends Component {
               }}
               validation={this.state.isValid.password}
               onBlur={(e) => this.onBlur(e)}
-              onChange={(e) => { this.onChangeInput(e) }}
+              onChange={(e) => { this.onChangePassword(e) }}
             />
 
             <Row className='Row'>Confirm Password:</Row>
@@ -134,7 +141,7 @@ class App extends Component {
               }}
               validation={this.state.isValid.cpassword}
               onBlur={(e) => this.onBlur(e)}
-              onChange={(e) => { this.onChangeInput(e) }}
+              onChange={(e) => { this.onChangePassword(e) }}
             />
 
             <Row className='Row'>Phone Number:</Row>
@@ -153,7 +160,7 @@ class App extends Component {
 
             <Row className='Row'>Gender:
             {this.state.isValid.Gender === false ?
-                <span>*required</span> :
+                <span className='color-red'>*required</span> :
                 null}
             </Row>
             {this.gender.map((g, i) => <React.Fragment key={i}>
@@ -171,7 +178,7 @@ class App extends Component {
 
             <Row className='Row'> Designation:
             {this.state.isValid.Designation === false ?
-                <p>*required</p> :
+                <span className='color-red'>*required</span> :
                 null}
             </Row>
             {this.designation.map((d, i) => <React.Fragment key={i}>
@@ -182,13 +189,13 @@ class App extends Component {
                   checked: Designation.includes(d.value)
                 }}
                 onChange={(e) => { this.onChangeCheckBox(e, i) }}
-                onBlur={(e) => this.onBlur(e)}
+              // onBlur={(e) => this.onBlur(e,{[e.target.name]:'Designation'})}
               />
             </React.Fragment>)}
 
             <Row className='Row'>Remarks:
             {this.state.isValid.remarks === false ?
-                <p>*required</p> :
+                <span className='color-red'>*required</span> :
                 null}
             </Row>
             <TextAreaTag
@@ -202,6 +209,7 @@ class App extends Component {
                 type='submit'
                 name='submit'
                 onClick={() => this.onClick()}
+                onBlur={(e) => this.onBlur(e)}
               />
             </Row>
           </CardBody>
