@@ -42,19 +42,17 @@ class App extends Component {
   }
 
   onChangeInput(e) {
-    this.setState({ obj: { ...this.state.obj, [e.target.name]: e.target.value } });
-  }
-
-  onChangePassword(e) {
-    this.onChangeInput(e);
     const { password, cpassword } = this.state.obj;
-    let valid = ((password !== '' && cpassword !== '') && (cpassword !== password));
-    this.setState({ isValid: { ...this.state.isValid, cpassword: valid } });
+    this.setState({ obj: { ...this.state.obj, [e.target.name]: e.target.value } });
+    if (e.target.name === 'password' || e.target.name === 'cpassword') {
+      let valid = ((password !== '' && cpassword !== '') && (cpassword !== password));
+      this.setState({ isValid: { ...this.state.isValid, cpassword: valid } });
+    }
   }
 
   onChangeCheckBox(e) {
     let designation = this.state.obj.Designation;
-    let valid = designation.length === 0 ? false : true;
+    let valid = designation.length !== 0 ? true : null;
     if (e.target.checked) {
       designation = [...designation, e.target.value];
     } else {
@@ -68,26 +66,23 @@ class App extends Component {
 
   checkValueRange(e) {
     const { from, to } = this.state.obj;
-    let price = this.state.isValid.priceRange;
-    let val;
+    let price;
     if (Number(from) < Number(to) && (to !== '' && from !== '')) {
-      this.setState({ isValid: { priceRange: { from: true, to: true } } });
-    }
-    else {
+      this.setState({ isValid: { priceRange: true } });
+    } else {
       if (e.target.name === 'to' && from !== '') {
-        val = Number(to) > Number(from) ? true : false;
+        price = Number(to) > Number(from) ? true : false;
       }
       if (e.target.name === 'from' && to !== '') {
-        val = Number(to) > Number(from) ? true : false;
+        price = Number(to) > Number(from) ? true : false;
       }
-      price = { ...price, [e.target.name]: val }
-      this.setState({ isValid: { priceRange: price } });
+      this.setState({ isValid: { ...this.state.isValid, priceRange: price } });
     }
   }
 
   onBlur(e) {
     let valid = validation(e, this.state.obj);
-    this.setState({ isValid: { ...this.state.isValid, [e.target.name]: valid } })
+    this.setState({ isValid: { ...this.state.isValid, [e.target.name]: valid } });
   }
 
   onClick() {
@@ -104,8 +99,8 @@ class App extends Component {
   }
 
   render() {
-    const { email, password, cpassword, number, Gender, Designation } = this.state.obj;
-    console.log(this.state.obj, 'va', this.state.isValid);
+    const { email, password, cpassword, number, Gender, Designation, to, from } = this.state.obj;
+    console.log(this.state.obj, 'valid', this.state.isValid);
     return (
       <Row className='justify-content-md-center'>
         <Col sm='5' className='div'>
@@ -138,7 +133,7 @@ class App extends Component {
               }}
               validation={this.state.isValid.password}
               onBlur={(e) => this.onBlur(e)}
-              onChange={(e) => { this.onChangePassword(e) }}
+              onChange={(e) => { this.onChangeInput(e) }}
             />
 
             <Row className='Row'>Confirm Password:</Row>
@@ -153,7 +148,7 @@ class App extends Component {
               }}
               validation={this.state.isValid.cpassword}
               onBlur={(e) => this.onBlur(e)}
-              onChange={(e) => { this.onChangePassword(e) }}
+              onChange={(e) => { this.onChangeInput(e) }}
             />
 
             <Row className='Row'>Phone Number:</Row>
@@ -216,7 +211,11 @@ class App extends Component {
               onBlur={(e) => this.onBlur(e)}
             />
 
-            <Row className='Row'>
+            <Row className='Row'>Enter Price Range:
+              {(this.state.isValid.priceRange === false && (from === '' || to === '')) ?
+                <span className='color-red'>*required</span> :
+                null
+              }
               <PriceRange
                 valid={this.state.isValid.priceRange}
                 onChange={(e) => { this.onChangeInput(e) }}
