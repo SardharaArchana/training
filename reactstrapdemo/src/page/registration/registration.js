@@ -42,12 +42,13 @@ class App extends Component {
   }
 
   onChangeInput(e) {
-    const { password, cpassword } = this.state.obj;
     this.setState({ obj: { ...this.state.obj, [e.target.name]: e.target.value } });
-    if (e.target.name === 'password' || e.target.name === 'cpassword') {
-      let valid = ((password !== '' && cpassword !== '') && (cpassword !== password));
-      this.setState({ isValid: { ...this.state.isValid, cpassword: valid } });
-    }
+    // const { password, cpassword } = this.state.obj;
+    // if (e.target.name === 'cpassword' || 'password') {
+    //   let valid = ((password !== '' && cpassword !== '') && (cpassword !== password));
+    //   console.log('cdfd', valid)
+    //   this.setState({ isValid: { ...this.state.isValid, cpassword: !valid } });
+    // }
   }
 
   onChangeCheckBox(e) {
@@ -81,8 +82,14 @@ class App extends Component {
   }
 
   onBlur(e) {
-    let valid = validation(e, this.state.obj);
-    this.setState({ isValid: { ...this.state.isValid, [e.target.name]: valid } });
+    const { password, cpassword } = this.state.obj;
+    let valid = validation(e, this.state.obj,this.state.isValid);
+    // if (e.target.name === 'cpassword' || e.target.name === 'password') {
+    //   let valid = ((password !== '' && cpassword !== '') && (cpassword !== password)) ? false : true;
+    //   this.setState({ isValid: { ...this.state.isValid, cpassword: valid } });     
+    // }
+    valid={...this.state.isValid,...valid};
+    this.setState({isValid:valid});
   }
 
   onClick() {

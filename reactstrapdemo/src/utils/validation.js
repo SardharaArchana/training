@@ -1,5 +1,5 @@
-export const validation = (e, data) => {
-  let regexp, valid;
+export const validation = (e, data, isValid) => {
+  let regexp, valid = isValid;
   switch (e.target.name) {
     case 'email': {
       regexp = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
@@ -7,7 +7,8 @@ export const validation = (e, data) => {
     }
     case 'password': {
       regexp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-
+      let val = (e.target.value === data.cpassword) ? true : false;
+      valid = { ...valid, cpassword: val }
       break;
     }
     case 'cpassword': {
@@ -30,7 +31,7 @@ export const validation = (e, data) => {
       console.log('onchange');
     }
   }
-  valid = e.target.value.match(regexp) ? true : false;
+  valid = { ...valid, [e.target.name]: e.target.value.match(regexp) ? true : false };
   return valid;
 }
 
