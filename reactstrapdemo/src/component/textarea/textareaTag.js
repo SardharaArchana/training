@@ -7,6 +7,7 @@ const TextAreaTag = (props) => {
     <Input className='textarea'
       type='textarea'
       name={props.name}
+      value={props.value}
       placeholder={props.placeholder}
       onChange={props.onChange}
       onBlur={props.onBlur}
@@ -19,6 +20,7 @@ export default TextAreaTag;
 
 TextAreaTag.defaultProps={
   name:'name',
+  value:'',
   placeholder:'enter value',
   onChange:()=>{},
   onBlur:()=>{},
@@ -26,6 +28,7 @@ TextAreaTag.defaultProps={
 
 TextAreaTag.propTypes = {
   name:PropTypes.string,
+  value:PropTypes.string,
   placeholder:PropTypes.string,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,

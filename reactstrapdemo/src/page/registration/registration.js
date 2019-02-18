@@ -43,12 +43,6 @@ class App extends Component {
 
   onChangeInput(e) {
     this.setState({ obj: { ...this.state.obj, [e.target.name]: e.target.value } });
-    // const { password, cpassword } = this.state.obj;
-    // if (e.target.name === 'cpassword' || 'password') {
-    //   let valid = ((password !== '' && cpassword !== '') && (cpassword !== password));
-    //   console.log('cdfd', valid)
-    //   this.setState({ isValid: { ...this.state.isValid, cpassword: !valid } });
-    // }
   }
 
   onChangeCheckBox(e) {
@@ -82,12 +76,7 @@ class App extends Component {
   }
 
   onBlur(e) {
-    const { password, cpassword } = this.state.obj;
     let valid = validation(e, this.state.obj,this.state.isValid);
-    // if (e.target.name === 'cpassword' || e.target.name === 'password') {
-    //   let valid = ((password !== '' && cpassword !== '') && (cpassword !== password)) ? false : true;
-    //   this.setState({ isValid: { ...this.state.isValid, cpassword: valid } });     
-    // }
     valid={...this.state.isValid,...valid};
     this.setState({isValid:valid});
   }
@@ -99,14 +88,14 @@ class App extends Component {
       this.setState({ isValid: res });
     }
     else {
-      const { email, password, number, Gender, Designation, remarks } = this.state.obj;
-      let obj = { email, password, number, Gender, Designation, remarks };
+      const { email, password, number, Gender, Designation, remarks,to,from } = this.state.obj;
+      let obj = { email, password, number, Gender, Designation, remarks ,to,from};
       this.props.user(obj);
     }
   }
 
   render() {
-    const { email, password, cpassword, number, Gender, Designation, to, from } = this.state.obj;
+    const { email, password, cpassword, number, Gender, Designation,remarks, to, from } = this.state.obj;
     console.log(this.state.obj, 'valid', this.state.isValid);
     return (
       <Row className='justify-content-md-center'>
@@ -214,6 +203,7 @@ class App extends Component {
             </Row>
             <TextAreaTag
               name='remarks'
+              value={remarks}
               onChange={(e) => { this.onChangeInput(e) }}
               onBlur={(e) => this.onBlur(e)}
             />
@@ -224,6 +214,7 @@ class App extends Component {
                 null
               }
               <PriceRange
+                value={{from,to}}
                 valid={this.state.isValid.priceRange}
                 onChange={(e) => { this.onChangeInput(e) }}
                 checkValueRange={(e) => { this.checkValueRange(e) }}

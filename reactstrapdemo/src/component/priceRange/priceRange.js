@@ -9,8 +9,6 @@ class PriceRange extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      from: '',
-      to: '',
       valid: undefined
     }
   }
@@ -19,10 +17,7 @@ class PriceRange extends Component {
     if (isNaN(e.target.value)) {
       this.setState({ valid: false })
     } else {
-      this.setState({
-        [e.target.name]: e.target.value,
-        valid: true
-      });
+      this.setState({ valid: true });
       this.props.onChange(e);
     }
   }
@@ -44,7 +39,7 @@ class PriceRange extends Component {
             <InputTag
               initialProp={{
                 name: 'from',
-                value: from,
+                value: this.props.value.from,
                 placeholder: 'min-price',
               }}
               validation={this.props.valid}
@@ -58,7 +53,7 @@ class PriceRange extends Component {
             <InputTag
               initialProp={{
                 name: 'to',
-                value: to,
+                value: this.props.value.to,
                 placeholder: 'max-price',
               }}
               validation={this.props.valid}

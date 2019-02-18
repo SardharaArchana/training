@@ -10,7 +10,7 @@ const Display = (props) => {
   return (
     <React.Fragment>
       <Row className='justify-content-md-center'>
-        <Col sm='10'>
+        <Col sm='12'>
           <Form className='div'>
             <CardHeader tag='h4'>User Data</CardHeader>
             <CardBody>
@@ -19,8 +19,9 @@ const Display = (props) => {
                   <Row className='RowStyle'>
                     <Col md='3' className='ColStyle'>{u.email}</Col>
                     <Col sm='2' className='ColStyle'>{u.password}</Col>
-                    <Col sm='2' className='ColStyle'>{u.number}</Col>
+                    <Col sm='1' className='ColStyle-number'>{u.number}</Col>
                     <Col sm='1' className='ColStyle'>{u.Gender}</Col>
+                    <Col sm='1' className='ColStyle'>{u.from}to{u.to}</Col>
                     <Col sm='1' className='ColStyle'>{u.Designation.map((l, i) => <React.Fragment key={i}>
                       <Row> {l}</Row>
                     </React.Fragment>
