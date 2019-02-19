@@ -42,6 +42,7 @@ class Home extends Component {
   }
 
   render() {
+    console.log('state',this.state)
     return (
       <React.Fragment>
         {this.state.isDisplay ?

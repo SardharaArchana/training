@@ -17,8 +17,9 @@ const Display = (props) => {
               {props.data===undefined ? <Row>no user</Row> : <>
                 {props.data.map((u, i) => <React.Fragment key={i}>
                   <Row className='RowStyle'>
+                    <Col sm='1' className='ColStyle'>{u.selectedname}</Col>
                     <Col md='3' className='ColStyle'>{u.email}</Col>
-                    <Col sm='2' className='ColStyle'>{u.password}</Col>
+                    <Col sm='1' className='ColStyle'>{u.password}</Col>
                     <Col sm='1' className='ColStyle-number'>{u.number}</Col>
                     <Col sm='1' className='ColStyle'>{u.Gender}</Col>
                     <Col sm='1' className='ColStyle'>{u.from}to{u.to}</Col>

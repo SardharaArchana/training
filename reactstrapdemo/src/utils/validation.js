@@ -38,12 +38,16 @@ export const validation = (e, data, isValid) => {
 export const emptyValue = (user) => {
   let valid = null;
   for (var key in user) {
-    if (key === 'cpassword' ? (user.password !== '' && user[key] === '') : user[key] === '' || user[key].length === 0) {
+    console.log(key)
+    if (key === 'cpassword' ? (user.password !== '' && user[key] === '') : user[key] === '' ||user[key] === {} || user[key].length === 0) {   
       if (key === 'to' || 'from') {
         console.log(key)
         if (user.to === '' || user.from === '') {
           key = 'priceRange';
         }
+      }
+      if(key==='name' || key==='selectname'){
+        key='async';
       }
       valid = { ...valid, [key]: false };
     }

@@ -26,7 +26,6 @@ class PriceRange extends Component {
     let val = (isNaN(e.target.value));
     this.setState({ valid: !val });
     await this.props.checkValueRange(e);
-    // this.setState({ valid: this.props.valid });
   }
 
   render() {

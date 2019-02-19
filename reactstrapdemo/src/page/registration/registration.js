@@ -7,6 +7,7 @@ import RadioButton from '../../component/radioButton/radioButton';
 import CheckBox from '../../component/checkbox/checkBox';
 import ButtonTag from '../../component/button/button';
 import PriceRange from '../../component/priceRange/priceRange';
+import AsyncSelectTag from '../../component/asyncSelect';
 import { validation, emptyValue } from '../../utils/validation';
 
 import './registration.css';
@@ -24,7 +25,9 @@ class App extends Component {
         remarks: '',
         from: '',
         to: '',
-        Designation: []
+        selectedname: '',
+        Designation: [],
+
       },
       isValid: {},
     }
@@ -76,9 +79,9 @@ class App extends Component {
   }
 
   onBlur(e) {
-    let valid = validation(e, this.state.obj,this.state.isValid);
-    valid={...this.state.isValid,...valid};
-    this.setState({isValid:valid});
+    let valid = validation(e, this.state.obj, this.state.isValid);
+    valid = { ...this.state.isValid, ...valid };
+    this.setState({ isValid: valid });
   }
 
   onClick() {
@@ -88,14 +91,18 @@ class App extends Component {
       this.setState({ isValid: res });
     }
     else {
-      const { email, password, number, Gender, Designation, remarks,to,from } = this.state.obj;
-      let obj = { email, password, number, Gender, Designation, remarks ,to,from};
+      const { email, password, number, Gender, Designation, remarks, to, from, selectedname } = this.state.obj;
+      let obj = { email, password, number, Gender, Designation, remarks, to, from, selectedname };
       this.props.user(obj);
     }
   }
 
+  componentWillUnmount() {
+    this.setState({ obj: {}, isValid: {} });
+  }
+
   render() {
-    const { email, password, cpassword, number, Gender, Designation,remarks, to, from } = this.state.obj;
+    const { email, password, cpassword, number, Gender, Designation, remarks, to, from } = this.state.obj;
     console.log(this.state.obj, 'valid', this.state.isValid);
     return (
       <Row className='justify-content-md-center'>
@@ -208,13 +215,20 @@ class App extends Component {
               onBlur={(e) => this.onBlur(e)}
             />
 
+            <AsyncSelectTag
+              inputValue={this.state.obj.selectedname}
+              onChange={(e) => {
+                this.setState({ obj: { ...this.state.obj, selectedname: e } })
+              }}
+            />
+
             <Row className='Row'>Enter Price Range:
               {(this.state.isValid.priceRange === false && (from === '' || to === '')) ?
                 <span className='color-red'>*required</span> :
                 null
               }
               <PriceRange
-                value={{from,to}}
+                value={{ from, to }}
                 valid={this.state.isValid.priceRange}
                 onChange={(e) => { this.onChangeInput(e) }}
                 checkValueRange={(e) => { this.checkValueRange(e) }}
