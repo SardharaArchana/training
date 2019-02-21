@@ -1,13 +1,14 @@
-export const validation = (e, data, isValid) => {
+export const validation = (name, value, data, isValid) => {
+  console.log("name", name, "value", value);
   let regexp, valid = isValid;
-  switch (e.target.name) {
+  switch (name) {
     case 'email': {
       regexp = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
       break;
     }
     case 'password': {
       regexp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-      let val = (e.target.value === data.cpassword) ? true : false;
+      let val = (value === data.cpassword) ? true : false;
       valid = { ...valid, cpassword: val }
       break;
     }
@@ -27,27 +28,31 @@ export const validation = (e, data, isValid) => {
       regexp = /^(?!\s*$).+/;
       break;
     }
+    case 'Designation': {
+      let val = data.Designation.length !== 0 ? true : false;
+      valid = { ...valid, Designation: val }
+    }
+      break;
     default: {
       console.log('onchange');
     }
   }
-  valid = { ...valid, [e.target.name]: e.target.value.match(regexp) ? true : false };
+  valid = { ...valid, [name]: value.match(regexp) ? true : false };
   return valid;
 }
 
 export const emptyValue = (user) => {
   let valid = null;
   for (var key in user) {
-    if (key === 'to' ? user.to === '' : key === 'from' ? user.from === '' : null) {
+    if ((key === 'to' || key === 'from') ? user.to === '' : user.from === '') {
       valid = { ...valid, priceRange: false };
-    } else {
-      if (key === 'cpassword' ?
-        (user.password !== '' && user[key] === '') :
-        user[key] === '' || user[key] === {} || user[key].length === 0) {
-        console.log(key);
-        valid = { ...valid, [key]: false };
-      }
     }
+    if (key === 'cpassword' ?
+      (user.password !== '' && user[key] === '') :
+      user[key] === '' || user[key].length === 0) {
+      valid = { ...valid, [key]: false };
+    }
+
   }
   return valid;
 }

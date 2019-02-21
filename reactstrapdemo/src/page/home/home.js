@@ -42,7 +42,7 @@ class Home extends Component {
   }
 
   render() {
-    console.log('state',this.state)
+    console.log('state', this.state)
     return (
       <React.Fragment>
         {this.state.isDisplay ?
@@ -50,7 +50,10 @@ class Home extends Component {
             editUser={(user, i) => this.editUser(user, i)}
             onClick={() => { this.newuser() }}
           /> :
-          <App user={(user) => this.setUser(user)} getEditUser={this.state.editUser} />
+          <App
+            user={(user) => this.setUser(user)}
+            getEditUser={this.state.editUser}
+          />
         }
       </React.Fragment >
     )

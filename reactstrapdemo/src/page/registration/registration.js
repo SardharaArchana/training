@@ -27,9 +27,9 @@ class App extends Component {
         to: '',
         selectedname: '',
         Designation: [],
-
       },
       isValid: {},
+      editUser:false
     }
     this.gender = [{ value: 'Female' }, { value: 'Male' }];
     this.designation = [{ name: 'trainee', value: 'trainee' }, { name: 'employee', value: 'employee' }, { name: 'developer', value: 'developer' }];
@@ -40,7 +40,7 @@ class App extends Component {
     if (this.props.getEditUser !== null) {
       console.log('register prop', this.props.getEditUser);
       let user = { ...this.props.getEditUser, cpassword: this.props.getEditUser.password };
-      this.setState({ obj: user });
+      this.setState({ obj: user,editUser:true });
     }
   }
 
@@ -50,15 +50,13 @@ class App extends Component {
 
   onChangeCheckBox(e) {
     let designation = this.state.obj.Designation;
-    let valid = designation.length !== 0 ? true : null;
     if (e.target.checked) {
       designation = [...designation, e.target.value];
     } else {
       designation.splice(designation.indexOf(e.target.value), 1);
     }
     this.setState({
-      obj: { ...this.state.obj, Designation: designation },
-      isValid: { ...this.state.isValid, Designation: valid }
+      obj: { ...this.state.obj, Designation: designation }
     });
   }
 
@@ -66,7 +64,7 @@ class App extends Component {
     const { from, to } = this.state.obj;
     let price;
     if (Number(from) < Number(to) && (to !== '' && from !== '')) {
-      this.setState({ isValid: { priceRange: true } });
+      this.setState({ isValid: { ...this.state.isValid, priceRange: true } });
     } else {
       if (e.target.name === 'to' && from !== '') {
         price = Number(to) > Number(from) ? true : false;
@@ -78,19 +76,28 @@ class App extends Component {
     }
   }
 
-  onBlur(e) {
-    let valid = validation(e, this.state.obj, this.state.isValid);
+  onBlur(name, value) {
+    let valid = validation(name, value, this.state.obj, this.state.isValid);
     valid = { ...this.state.isValid, ...valid };
     this.setState({ isValid: valid });
   }
 
   onClick() {
     let user = this.state.obj;
+    let valid = this.state.isValid;
+    let submit = this.state.editUser;
     let res = emptyValue(user);
     if (res !== null) {
+      res = { ...res, ...valid };
       this.setState({ isValid: res });
     }
     else {
+      for (var key in valid) {
+        submit = valid[key] === true ? true : false;
+      }
+    }
+    console.log(valid)
+    if (submit) {
       const { email, password, number, Gender, Designation, remarks, to, from, selectedname } = this.state.obj;
       let obj = { email, password, number, Gender, Designation, remarks, to, from, selectedname };
       this.props.user(obj);
@@ -98,12 +105,12 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    this.setState({ obj: {}, isValid: {} });
+    this.setState({ obj: {}, isValid: {},editUser:false });
   }
 
   render() {
     const { email, password, cpassword, number, Gender, Designation, remarks, to, from } = this.state.obj;
-    console.log(this.state.obj, 'valid', this.state.isValid);
+    console.log(this.state, 'valid', this.state.isValid);
     return (
       <Row className='justify-content-md-center'>
         <Col sm='5' className='div'>
@@ -122,7 +129,7 @@ class App extends Component {
                 },
               }}
               validation={this.state.isValid.email}
-              onBlur={(e) => this.onBlur(e)}
+              onBlur={(e) => this.onBlur(e.target.name, e.target.value)}
               onChange={(e) => { this.onChangeInput(e) }}
             />
 
@@ -139,7 +146,7 @@ class App extends Component {
                 },
               }}
               validation={this.state.isValid.password}
-              onBlur={(e) => this.onBlur(e)}
+              onBlur={(e) => this.onBlur(e.target.name, e.target.value)}
               onChange={(e) => { this.onChangeInput(e) }}
             />
 
@@ -156,7 +163,7 @@ class App extends Component {
                 },
               }}
               validation={this.state.isValid.cpassword}
-              onBlur={(e) => this.onBlur(e)}
+              onBlur={(e) => this.onBlur(e.target.name, e.target.value)}
               onChange={(e) => { this.onChangeInput(e) }}
             />
 
@@ -173,7 +180,7 @@ class App extends Component {
                 },
               }}
               validation={this.state.isValid.number}
-              onBlur={(e) => this.onBlur(e)}
+              onBlur={(e) => this.onBlur(e.target.name, e.target.value)}
               onChange={(e) => { this.onChangeInput(e) }}
             />
 
@@ -190,7 +197,7 @@ class App extends Component {
                   checked: Gender === g.value
                 }}
                 onChange={(e) => { this.onChangeInput(e) }}
-                onBlur={(e) => this.onBlur(e)}
+                onBlur={(e) => this.onBlur(e.target.name, e.target.value)}
               />
             </React.Fragment>)}
 
@@ -208,6 +215,7 @@ class App extends Component {
                   checked: Designation.includes(d.value)
                 }}
                 onChange={(e) => { this.onChangeCheckBox(e) }}
+                onBlur={(e) => this.onBlur('Designation', e.target.value)}
               />
             </React.Fragment>)}
 
@@ -220,7 +228,7 @@ class App extends Component {
               name='remarks'
               value={remarks}
               onChange={(e) => { this.onChangeInput(e) }}
-              onBlur={(e) => this.onBlur(e)}
+              onBlur={(e) => this.onBlur(e.target.name, e.target.value)}
             />
 
             <AsyncSelectTag
@@ -248,7 +256,6 @@ class App extends Component {
                 type='submit'
                 name='submit'
                 onClick={() => this.onClick()}
-                onBlur={(e) => this.onBlur(e)}
               />
             </Row>
 
