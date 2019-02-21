@@ -116,8 +116,10 @@ class App extends Component {
                 type: 'email',
                 value: email,
                 placeholder: 'enter email',
-                errormsg: 'enter email in form abcd@xyz.com',
-                empty: '*required'
+                errormsg: {
+                  invalid: 'enter email in form abcd@xyz.com',
+                  empty: '*required'
+                },
               }}
               validation={this.state.isValid.email}
               onBlur={(e) => this.onBlur(e)}
@@ -131,8 +133,10 @@ class App extends Component {
                 type: 'password',
                 value: password,
                 placeholder: 'enter password',
-                errormsg: 'enter password with Min 8 characters, at least 1 letter and 1 number',
-                empty: '*required'
+                errormsg: {
+                  invalid: 'enter password with Min 8 characters, at least 1 letter and 1 number',
+                  empty: '*required'
+                },
               }}
               validation={this.state.isValid.password}
               onBlur={(e) => this.onBlur(e)}
@@ -146,8 +150,10 @@ class App extends Component {
                 type: 'password',
                 value: cpassword,
                 placeholder: 'enter same password',
-                errormsg: 'enter same password',
-                empty: '*required'
+                errormsg: {
+                  invalid: 'enter same password',
+                  empty: '*required'
+                },
               }}
               validation={this.state.isValid.cpassword}
               onBlur={(e) => this.onBlur(e)}
@@ -161,8 +167,10 @@ class App extends Component {
                 type: 'number',
                 value: number,
                 placeholder: 'enter phone number',
-                errormsg: 'must enter 10 number',
-                empty: '*required'
+                errormsg: {
+                  invalid: 'must enter 10 number',
+                  empty: '*required'
+                },
               }}
               validation={this.state.isValid.number}
               onBlur={(e) => this.onBlur(e)}

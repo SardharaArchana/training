@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/lib/Async';
 import axios from 'axios';
 import _ from 'lodash';
@@ -46,3 +47,13 @@ const AsyncSelectTag = (props) => {
 }
 
 export default AsyncSelectTag;
+
+AsyncSelectTag.defaultProps={
+  inputValue:'',
+  onChange:()=>{},
+}
+
+AsyncSelectTag.propTypes = {
+  inputValue:PropTypes.string,
+  onChange:PropTypes.func,
+}

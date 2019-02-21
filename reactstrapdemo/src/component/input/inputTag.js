@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Row, Col } from 'reactstrap';
+import {get} from 'lodash';
 
 import './inputTag.css';
 
@@ -21,23 +22,23 @@ const InputTag = (props) => {
         </Input>
         <React.Fragment >
           <span style={{ color: 'red' }}>
-            {(props.validation === false && props.initialProp.value === '') ?
-              <p >{props.initialProp.empty}</p> :
-              props.validation === false ? props.initialProp.errormsg : null}</span>
+            {(props.validation === false && get(props, 'initialProp.value') === '') ?
+              < >{get(props, 'initialProp.errormsg.empty')}</> :
+              props.validation === false ? get(props, 'initialProp.errormsg.invalid') : null}</span>
         </React.Fragment>
       </Col>
     </Row>
   )
 }
 
-export default InputTag;
-
 InputTag.defaultProps = {
   initialProp: {
     name: 'value',
     type: 'text',
-    errormsg: '',
-    empty: '',
+    errormsg: {
+      empty: 'empty',
+      invalid: 'invalid',
+    },
     value: '',
     placeholder: 'enter value'
   },
@@ -46,7 +47,7 @@ InputTag.defaultProps = {
   onBlur: () => { },
   onChange: () => { },
   onClick: () => { },
-}
+};
 
 InputTag.propTypes = {
   initialProp: PropTypes.shape({
@@ -54,11 +55,16 @@ InputTag.propTypes = {
     type: PropTypes.string,
     value: PropTypes.string,
     placeholder: PropTypes.string,
-    errormsg: PropTypes.string
+    errormsg: PropTypes.shape({
+      empty: PropTypes.string,
+      invalid: PropTypes.string,
+    }),
   }),
   validation: PropTypes.bool,
   className: PropTypes.string,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
-}
+};
+
+export default InputTag;

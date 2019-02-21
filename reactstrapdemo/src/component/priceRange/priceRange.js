@@ -29,7 +29,8 @@ class PriceRange extends Component {
   }
 
   render() {
-    const { from, to, valid } = this.state;
+    const { valid } = this.state;
+    const { to, from } = this.props.value;
     return (
       <React.Fragment>
         <Row>
@@ -62,8 +63,8 @@ class PriceRange extends Component {
           </Col>
         </Row>
         {(this.props.valid === false && (from !== '' && to !== '')) ?
-          <span className='color-red'><b>To</b> is value less then <b>From</b> value</span> :
-          (valid === false && (from === '' || to === '')) ? <span className='color-red'>numbers only</span> :
+          <span className='color-red'><b>To</b> value is less then <b>From</b> value</span> :
+          (valid === false ) ? <span className='color-red'>numbers only</span> :
             null
         }
       </React.Fragment>
