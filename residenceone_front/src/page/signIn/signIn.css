@@ -1,8 +1,8 @@
-.row{
+.Row{
     margin: 0px;
     padding: 10px;
 }
-.col{
+.Col{
     padding: 30px;
     border: 1px solid #ced4da;
     border-radius: 2px;

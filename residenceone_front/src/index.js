@@ -4,4 +4,4 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import Routing from './routing';
 
-ReactDOM.render(<Routing/>, document.getElementById('root'));
+ReactDOM.render(<Routing />, document.getElementById('root'));

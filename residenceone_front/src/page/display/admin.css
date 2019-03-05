@@ -1,0 +1,23 @@
+.Col{
+    padding: 30px;
+    border: 1px solid #ced4da;
+    border-radius: 2px;
+    background-color: white;  
+    box-shadow: 0 1px 6px rgba(0,0,0,.117647), 0 1px 4px rgba(0,0,0,.117647);
+}
+.Row{
+    margin: 0px;
+    padding: 5px;
+}
+.Row-main{
+    margin: 0px;
+    padding:0px;
+}
+.Margin-0{
+    padding: 5px;
+}
+
+.navbar-light .navbar-toggler-icon {
+    background-image: url(data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000…p='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e);
+}
+

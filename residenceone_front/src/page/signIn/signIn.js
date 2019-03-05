@@ -30,7 +30,7 @@ class SignIn extends Component {
       .catch(error => {
         console.log('error:', error)
       })
-    this.props.history.push('/display');
+    this.props.history.push('/admin');
   }
 
   render() {
@@ -38,11 +38,11 @@ class SignIn extends Component {
 
     return (
       <React.Fragment>
-        <Row className='justify-content-center'>
+        <Row className='justify-content-center Row'>
           <h2>The Cadenelle</h2>
         </Row>
-        <Row className='justify-content-center'>
-          <Col className='col' sm={4}>
+        <Row className='justify-content-center Row'>
+          <Col className='Col' sm={4}>
             <Form>
               <p>LogIn</p>
               <hr />
