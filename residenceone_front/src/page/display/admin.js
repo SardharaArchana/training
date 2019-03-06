@@ -6,10 +6,11 @@ import { Row, Col, Collapse, Navbar, NavbarToggler, Nav, NavItem } from 'reactst
 import './admin.css';
 import Unit from '../../components/administration/unit';
 import User from '../../components/administration/user';
+import Administration from '../../components/administration/administration';
 
-class Display extends Component {
-  constructor() {
-    super();
+class Admin extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       userList: [],
       listHeader: [],
@@ -25,9 +26,9 @@ class Display extends Component {
     }
   }
 
-  componentDidMount() {
-    this.getUserList();
-  }
+  // componentDidMount() {
+  //   this.getUserList();
+  // }
 
   getUserList() {
     let listheader = [];
@@ -83,38 +84,38 @@ class Display extends Component {
   }
   render() {
     let listheader = this.state.listHeader;
-    const Administration = [
+    const administrationList = [
       'Structure', 'Units', 'User', 'Groupes', 'Families', 'Owner',
       'Vehicles', 'Documents', 'Events', 'Informantion thread',
       'Swimming pool', 'Tracking Problems', 'Contact', 'Settings'
     ];
-    const Applications = [
+    const applicationsList = [
       'Swimming pool', 'Reception', 'Notification',
       'Vehicles', 'Tracking Problems', 'Contact'
     ];
-    const UnionCouncil = [
+    const unionCouncilList = [
       'Members', 'Documents', 'Contacts',
       'Disscussion', 'Informantion thread', 'Tracking Problems'
     ];
-    const Residence = [
+    const residenceList = [
       'Dashboard', 'Events', 'Tracking Problems', 'Bus',
       'Documents', 'Infromation thread', 'Contacts', 'Reservations',
       'Services', 'Groupes', 'Ideas'
     ];
-    const Owners = [
+    const ownersList = [
       'Dashboard', 'Documents', 'Infromation thread',
       'Tracking Problems', 'Contacts',
     ];
-    const Public = [
+    const publicList = [
       'Site Internet', 'Blog', 'Documents'
     ];
     const sidebar = [
-      { name: 'Administration', value: Administration },
-      { name: 'Applications', value: Applications },
-      { name: 'UnionCouncil', value: UnionCouncil },
-      { name: 'Residence', value: Residence },
-      { name: 'Owners', value: Owners },
-      { name: 'Public', value: Public }
+      { name: 'Administration', value: administrationList },
+      { name: 'Applications', value: applicationsList },
+      { name: 'UnionCouncil', value: unionCouncilList },
+      { name: 'Residence', value: residenceList },
+      { name: 'Owners', value: ownersList },
+      { name: 'Public', value: publicList }
     ];
     return (
       <BrowserRouter>
@@ -164,14 +165,14 @@ class Display extends Component {
                 <Navbar color="dark" dark>
                   <Nav vertical>
                     {sidebar.map(list =>
-                      <NavItem style={{color:'white'}} key={list.name}>
+                      <NavItem style={{ color: 'white' }} key={list.name}>
                         {list.name}
                         <NavbarToggler onClick={() => this.toggleNavbar(list.name)} className="mr-2" />
                         <Collapse isOpen={!this.state.collapsed[list.name]} navbar>
                           <Nav navbar vertical>
                             <NavItem>
                               {list.value.map(item =>
-                                <Link to={`/admin/${list.name}/${item}`} key={item}>
+                                <Link to={`/admin/${list.name}/${item}`} params={{ name: item }} key={item}>
                                   {item}<br />
                                 </Link>
                               )}
@@ -197,8 +198,7 @@ class Display extends Component {
                 <Col className='Col'>Welcome to Dashboard</Col>
               </Row>
               <Switch>
-                <Route exact path='/admin/Administration/Units' component={Unit} />
-                <Route exact path='/admin/Administration/User' component={User} />
+                <Route exact path='/admin/Administration/:name' component={Administration} />
               </Switch>
             </Col>
           </Row>
@@ -208,4 +208,4 @@ class Display extends Component {
   }
 }
 
-export default Display;
+export default Admin;

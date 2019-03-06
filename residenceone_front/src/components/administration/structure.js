@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import TableTag from '../../common/table/table';
 
-class Unit extends Component {
+class Structure extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,18 +14,18 @@ class Unit extends Component {
   }
 
   async getUserList() {
-    await axios.get('http://127.0.0.1:3000/api/unit/list?page=2',
+    await axios.get('http://127.0.0.1:3000/api/entry/structure?',
       {
         headers: { token: localStorage.getItem('userToken') }
       })
       .then(response => {
         console.log('response:', response);
-        this.setState({ unitList: response.data.data })
+        // this.setState({ unitList: response.data.data })
       })
       .catch(error => {
         console.log('error:', error);
       })
-    this.getTableDetails();
+    // this.getTableDetails();
   }
 
   getTableDetails() {
@@ -58,4 +58,4 @@ class Unit extends Component {
   }
 }
 
-export default Unit;
+export default Structure;
