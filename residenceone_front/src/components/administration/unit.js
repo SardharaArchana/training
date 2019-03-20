@@ -30,18 +30,20 @@ class Unit extends Component {
 
   getTableDetails() {
     console.log('dasdkm');
-    let column = [
-      { Header: 'Unit Id', accessor: 'officialId' },
-      { Header: 'Section', accessor: 'section.name' },
-      { Header: 'Building', accessor: 'building.name' },
-      { Header: 'Entry', accessor: 'entry' },
-      { Header: 'Level', accessor: 'level' },
-      { Header: 'Location', accessor: 'location' },
-      { Header: 'Shares', accessor: 'shares' },
-      { Header: 'Type', accessor: 'unit_type.type' },
-      { Header: 'Unit Format', accessor: 'unit_type_format' },
-      { Header: 'Surface Area', accessor: 'surfaceArea' }
-    ]
+    let column = [{
+      Header: '',
+      columns: [
+        { Header: 'Unit Id', accessor: 'officialId' },
+        { Header: 'Section', accessor: 'section.name' },
+        { Header: 'Building', accessor: 'building.name' },
+        { Header: 'Entry', accessor: 'entry' },
+        { Header: 'Level', accessor: 'level' },
+        { Header: 'Location', accessor: 'location' },
+        { Header: 'Shares', accessor: 'shares' },
+        { Header: 'Type', accessor: 'unit_type.type' },
+        { Header: 'Unit Format', accessor: 'unit_type_format' },
+        { Header: 'Surface Area', accessor: 'surfaceArea' }],
+    }]
     this.setState({ unitListHeader: column, click: true });
   }
 
@@ -50,7 +52,7 @@ class Unit extends Component {
       <React.Fragment>
         <button onClick={() => this.getUserList()}>get</button>{
           this.state.click ?
-            <TableTag data={this.state.unitList} coloumn={this.state.unitListHeader} /> :
+            <TableTag data={this.state.unitList} column={this.state.unitListHeader} /> :
             null
         }
       </React.Fragment >

@@ -6,8 +6,8 @@ class Structure extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      unitList: [],
-      unitListHeader: [],
+      structureList: [],
+      structureListHeader: [],
       click: false
     }
     this.getTableDetails = this.getTableDetails.bind(this);
@@ -20,29 +20,28 @@ class Structure extends Component {
       })
       .then(response => {
         console.log('response:', response);
-        // this.setState({ unitList: response.data.data })
+        this.setState({ structureList: response.data.data });
       })
       .catch(error => {
         console.log('error:', error);
       })
-    // this.getTableDetails();
+    this.getTableDetails();
   }
 
   getTableDetails() {
-    console.log('dasdkm');
-    let column = [
-      { Header: 'Unit Id', accessor: 'officialId' },
-      { Header: 'Section', accessor: 'section.name' },
-      { Header: 'Building', accessor: 'building.name' },
-      { Header: 'Entry', accessor: 'entry' },
-      { Header: 'Level', accessor: 'level' },
-      { Header: 'Location', accessor: 'location' },
-      { Header: 'Shares', accessor: 'shares' },
-      { Header: 'Type', accessor: 'unit_type.type' },
-      { Header: 'Unit Format', accessor: 'unit_type_format' },
-      { Header: 'Surface Area', accessor: 'surfaceArea' }
+    let column = [{
+      Header: '',
+      columns: [
+        { Header: 'Entry', accessor: 'name' },
+        { Header: 'Entry code', accessor: 'entryCode' },
+        { Header: 'Building', accessor: 'building.name' },
+        { Header: 'Building Code', accessor: 'buildingCode' },
+        { Header: 'Section', accessor: 'section.name' },
+        { Header: 'Overground levels', accessor: 'noOfOvergroundFloors' },
+        { Header: 'UNderground levels', accessor: 'noOfUndergroundFloors' },]
+    }
     ]
-    this.setState({ unitListHeader: column, click: true });
+    this.setState({ structureListHeader: column, click: true });
   }
 
   render() {
@@ -50,7 +49,7 @@ class Structure extends Component {
       <React.Fragment>
         <button onClick={() => this.getUserList()}>get</button>{
           this.state.click ?
-            <TableTag data={this.state.unitList} coloumn={this.state.unitListHeader} /> :
+            <TableTag data={this.state.structureList} column={this.state.structureListHeader} /> :
             null
         }
       </React.Fragment >

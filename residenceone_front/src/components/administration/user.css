@@ -1,0 +1,32 @@
+.table-main{
+    padding: 10px;
+}
+.drop-down{
+    position: absolute;
+}
+.adduser-form{
+    font-size: 12px;
+    font-weight: 500;
+}
+.adduser-form>div{
+    display: block;
+    width: 100%;
+    border-bottom:solid #dee2e6 .5px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 400;
+    cursor: pointer;
+}
+.adduser-form>form>div{
+    margin-bottom: 10px;  
+}
+.adduser-form>div>svg{
+    position: absolute;
+    right: 20px;
+}
+.modal-content{
+    width: 100%;
+}

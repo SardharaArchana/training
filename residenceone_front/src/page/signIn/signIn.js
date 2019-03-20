@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router-dom";
 import { Form, FormGroup, Label, Input, Button, Row, Col } from 'reactstrap';
+import FaLock from 'react-icons/lib/fa/lock';
 import axios from 'axios';
 
 import './signIn.css';
@@ -19,18 +21,23 @@ class SignIn extends Component {
     this.setState({ [name]: value });
   }
 
-  onSignIn() {
-    console.log('click');
+  async onSignIn() {
     let obj = this.state;
-    axios.post('http://127.0.0.1:3000/api/user/login', obj)
+    await axios.post('http://127.0.0.1:3000/api/user/login', obj)
       .then(response => {
         console.log('response:', response);
-        localStorage.setItem('userToken', response.data.token);
+        if (response.data.status) {
+          localStorage.setItem('userToken', response.data.token);
+          this.props.history.push({ pathname: '/admin', params: { role: 'admin' } });
+        } else {
+          window.alert('eneter valid details')
+          this.props.history.push('/signin');
+        }
       })
       .catch(error => {
         console.log('error:', error)
       })
-    this.props.history.push('/admin');
+    this.setState({ email: '', password: '' })
   }
 
   render() {
@@ -38,13 +45,13 @@ class SignIn extends Component {
 
     return (
       <React.Fragment>
-        <Row className='justify-content-center Row'>
+        <Row className='justify-content-center '>
           <h2>The Cadenelle</h2>
         </Row>
-        <Row className='justify-content-center Row'>
+        <Row className='justify-content-center '>
           <Col className='Col' sm={4}>
             <Form>
-              <p>LogIn</p>
+              <p><FaLock size='20px' />&nbsp;LogIn</p>
               <hr />
               <FormGroup>
                 <Label>Email:</Label>
@@ -84,4 +91,4 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn;
+export default withRouter(SignIn);

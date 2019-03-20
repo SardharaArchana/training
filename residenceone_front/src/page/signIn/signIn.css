@@ -3,19 +3,18 @@
     padding: 10px;
 }
 .Col{
-    padding: 30px;
     border: 1px solid #ced4da;
     border-radius: 2px;
     background-color: white;  
     box-shadow: 0 1px 6px rgba(0,0,0,.117647), 0 1px 4px rgba(0,0,0,.117647);
 }
-.btn,.btn.btn-success{
+/* .btn,.btn.btn-success{
     border: 1px solid #3ec291;
     background-color:#4ac598;
 }
 .btn.btn-success.active, .btn.btn-success:active, .btn.btn-success:focus, .btn.btn-success:hover{
     background-color:#4ac598;
-}
+} */
 .form-group{
     margin: 1rem;
 }
