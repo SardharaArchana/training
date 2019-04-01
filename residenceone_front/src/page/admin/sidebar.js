@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { Route, Link, Redirect, Switch } from 'react-router-dom';
 import { Row, Col, Collapse, Navbar, NavbarToggler, Nav, NavItem } from 'reactstrap';
-import FaArrowUp from 'react-icons/lib/io/android-arrow-dropup-circle';
-import FaArrowDown from 'react-icons/lib/io/android-arrow-dropdown-circle';
+import {
+  FaChevronCircleUp, FaChevronCircleDown, FaRegCircle, FaRegBuilding, FaUser, FaAtom,
+  FaUsers, FaUserSecret, FaCarAlt, FaFileAlt, FaCalendarAlt, FaNewspaper,
+  FaSwimmer, FaRegCheckCircle, FaRegAddressCard, FaCogs, FaGift, FaFlagCheckered,
+  FaRegAddressBook, FaUserFriends, FaDesktop, FaBusAlt, FaUtensils, FaTableTennis,
+  FaConciergeBell, FaCircleNotch, FaRegLightbulb, FaGlobeAmericas,
+} from 'react-icons/fa'
 
 import './admin.css';
 
@@ -12,33 +17,67 @@ class SideBar extends Component {
     this.state = {
     }
   }
+
   render() {
     const { match } = this.props;
     const { heading, collapsed } = this.state;
     const administrationList = [
-      { name: 'Structure' }, { name: 'Units' }, { name: 'User' }, { name: 'Groupes' }, { name: 'Families' }, { name: 'Owner' },
-      { name: 'Vehicles' }, { name: 'Documents' }, { name: 'Events' }, { name: 'Informantion thread' },
-      { name: 'Swimming pool' }, { name: 'Tracking Problems' }, { name: 'Contact' }, { name: 'Settings' }
+      { name: 'Structure', icon: <FaRegCircle /> },
+      { name: 'Units', icon: <FaRegBuilding /> },
+      { name: 'User', icon: <FaUser /> },
+      { name: 'Groupes', icon: <FaAtom /> },
+      { name: 'Families', icon: <FaUsers /> },
+      { name: 'Owner', icon: <FaUserSecret /> },
+      { name: 'Vehicles', icon: <FaCarAlt /> },
+      { name: 'Documents', icon: <FaFileAlt /> },
+      { name: 'Events', icon: <FaCalendarAlt /> },
+      { name: 'News Feed', icon: <FaNewspaper /> },
+      { name: 'Swimming pool', icon: <FaSwimmer /> },
+      { name: 'Tracking Problems', icon: <FaRegCheckCircle /> },
+      { name: 'Contact', icon: <FaRegAddressCard /> },
+      { name: 'Settings', icon: <FaCogs /> }
     ];
     const applicationsList = [
-      { name: 'Swimming pool' }, { name: 'Reception' }, { name: 'Notification' },
-      { name: 'Vehicles' }, { name: 'Tracking Problems' }, { name: 'Contact' }
+      { name: 'Swimming pool', icon: <FaSwimmer /> },
+      { name: 'Reception', icon: <FaGift /> },
+      { name: 'Notification', icon: <FaFlagCheckered /> },
+      { name: 'Vehicles', icon: <FaCarAlt /> },
+      { name: 'Tracking Problems', icon: <FaRegCheckCircle /> },
+      { name: 'Contact', icon: <FaRegAddressCard /> }
     ];
     const unionCouncilList = [
-      { name: 'Members' }, { name: 'Documents' }, { name: 'Contacts' },
-      { name: 'Disscussion' }, { name: 'Informantion thread' }, { name: 'Tracking Problems' }
+      { name: 'Members', icon: <FaRegAddressBook /> },
+      { name: 'Documents', icon: <FaFileAlt /> },
+      { name: 'Contacts', icon: <FaRegAddressCard /> },
+      { name: 'Disscussion', icon: <FaUserFriends /> },
+      { name: 'News Feed', icon: <FaNewspaper /> },
+      { name: 'Tracking Problems', icon: <FaRegCheckCircle /> }
     ];
     const residenceList = [
-      { name: 'Dashboard' }, { name: 'Events' }, { name: 'Tracking Problems' }, { name: 'Bus' },
-      { name: 'Documents' }, { name: 'Infromation thread' }, { name: 'Contacts' }, { name: 'Reservations' },
-      { name: 'Services' }, { name: 'Groupes' }, { name: 'Ideas' }
+      { name: 'Dashboard', icon: <FaDesktop /> },
+      { name: 'Events', icon: <FaCalendarAlt /> },
+      { name: 'Tracking Problems', icon: <FaRegCheckCircle /> },
+      { name: 'Bus', icon: <FaBusAlt /> },
+      { name: 'Documents', icon: <FaFileAlt /> },
+      { name: 'News Feed', icon: <FaNewspaper /> },
+      { name: 'Contacts', icon: <FaRegAddressBook /> },
+      { name: 'Restaurant', icon: <FaUtensils /> },
+      { name: 'Reservations', icon: <FaTableTennis /> },
+      { name: 'Services', icon: <FaConciergeBell /> },
+      { name: 'Groupes', icon: <FaCircleNotch /> },
+      { name: 'Ideas', icon: <FaRegLightbulb /> }
     ];
     const ownersList = [
-      { name: 'Dashboard' }, { name: 'Documents' }, { name: 'Infromation thread' },
-      { name: 'Tracking Problems' }, { name: 'Contacts' },
+      { name: 'Dashboard', icon: <FaDesktop /> },
+      { name: 'Documents', icon: <FaFileAlt /> },
+      { name: 'News Feed', icon: <FaNewspaper /> },
+      { name: 'Tracking Problems', icon: <FaRegCheckCircle /> },
+      { name: 'Contacts', icon: <FaRegAddressCard /> },
     ];
     const publicList = [
-      { name: 'Site Internet' }, { name: 'Blog' }, { name: 'Documents' }
+      { name: 'Site Internet', icon: <FaGlobeAmericas /> },
+      { name: 'Blog', icon: <FaNewspaper /> },
+      { name: 'Documents', icon: <FaFileAlt /> }
     ];
     const sidebar = [
       { name: 'Administration', value: administrationList, path: 'admin' },
@@ -48,6 +87,7 @@ class SideBar extends Component {
       { name: 'Owners', value: ownersList, path: 'owner' },
       { name: 'Public', value: publicList, path: 'public' }
     ];
+
     return (
       <React.Fragment>
         <Col className="col-sidebar" >
@@ -60,17 +100,18 @@ class SideBar extends Component {
                     <React.Fragment key={list.name}>
                       <NavItem >
                         <div onClick={() => this.props.toggleNavbar(list.name)}>
-                          {list.name}<span>{this.props.toggle[list.name] ? <FaArrowUp size={20} /> : <FaArrowDown size={20} />}</span>
+                          {list.name}<span>{this.props.toggle[list.name] ? <FaChevronCircleUp size={20} />
+                            : <FaChevronCircleDown size={20} />}</span>
                         </div>
                       </NavItem>
                       <Collapse isOpen={this.props.toggle[list.name]}>
                         {list.value.map(item =>
                           <Link
-                            to={{ pathname: `/${list.path}/${item.name}`, state: { name: list.path } }}
+                            to={{ pathname: `/${list.path}/${item.name}`, state: { name: item.name } }}
                             onClick={() => this.props.setHeading(item.name)}
                             key={item.name}
                           >
-                            {item.name}<br />
+                            {item.icon}  {item.name}<br />
                           </Link>
                         )}
                       </Collapse>

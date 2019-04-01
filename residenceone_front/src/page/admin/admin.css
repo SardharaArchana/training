@@ -155,6 +155,27 @@
 .menu-body>ul>div>a:hover{
     text-decoration: none;
     font-size: 16px;
-    margin-left: 20px;
+    padding: 10px;
 }
-
+.label{
+    font-weight: 600;
+    margin: 5px;
+}
+.data{
+    font-weight: 400;
+    margin: 5px;
+}
+.default-unit-profile{
+    display: inline-block;
+    width: 100% \9;
+    max-width: 100%;
+    height: auto;
+    padding: 4px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}

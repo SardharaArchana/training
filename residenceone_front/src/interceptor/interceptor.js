@@ -1,4 +1,5 @@
 import axios from 'axios';
+import history from '../history';
 
 const baseUrl = 'http://127.0.0.1:3000/api/';
 const errorMsg = `Something Went Wrong!.....`;
@@ -9,12 +10,18 @@ const post = (url, obj) => {
     headers: { token: localStorage.getItem('userToken') }
   })
     .then(response => {
-      console.log(response);
-      return Promise.resolve({
-        success: true,
-        data: response.data,
-        error: null,
-      });
+      if (response.data.statusCode === 401 && response.data.message === 'Invalid token') {
+        window.alert('Invalid token.... sign in again');
+        history.push('/signin');
+        return 0;
+      } else {
+        console.log(response);
+        return Promise.resolve({
+          success: true,
+          data: response.data,
+          error: null,
+        });
+      }
     })
     .catch(error => {
       return Promise.reject({
@@ -31,12 +38,18 @@ const del = (url, obj) => {
     headers: { token: localStorage.getItem('userToken') }
   })
     .then(response => {
-      console.log(response);
-      return Promise.resolve({
-        success: true,
-        data: response.data,
-        error: null,
-      });
+      if (response.data.statusCode === 401 && response.data.message === 'Invalid token') {
+        window.alert('Invalid token.... sign in again');
+        history.push('/signin');
+        return 0;
+      } else {
+        console.log(response);
+        return Promise.resolve({
+          success: true,
+          data: response.data,
+          error: null,
+        });
+      }
     })
     .catch(error => {
       return Promise.reject({
@@ -55,12 +68,18 @@ const get = (url, params) => {
       headers: { token: localStorage.getItem('userToken') }
     })
     .then(response => {
-      console.log('response:::', response);
-      return Promise.resolve({
-        success: true,
-        data: response.data,
-        error: null,
-      });
+      if (response.data.statusCode === 401 && response.data.message === 'Invalid token') {
+        window.alert('Invalid token.... sign in again');
+        history.push('/signin');
+        return 0;
+      } else {
+        console.log('response:::', response);
+        return Promise.resolve({
+          success: true,
+          data: response.data,
+          error: null,
+        });
+      }
     })
     .catch(error => {
       return Promise.reject({
@@ -77,12 +96,18 @@ const put = (url, obj) => {
     headers: { token: localStorage.getItem('userToken') }
   })
     .then(response => {
-      console.log('response', response);
-      return Promise.resolve({
-        success: true,
-        data: response.data,
-        error: null,
-      });
+      if (response.data.statusCode === 401 && response.data.message === 'Invalid token') {
+        window.alert('Invalid token.... sign in again');
+        history.push('/signin');
+        return 0;
+      } else {
+        console.log('response', response);
+        return Promise.resolve({
+          success: true,
+          data: response.data,
+          error: null,
+        });
+      }
     })
     .catch(error => {
       return Promise.reject({

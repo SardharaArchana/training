@@ -11,8 +11,21 @@ class TableTag extends Component {
     }
   }
 
+  // shouldComponentUpdate(prevProps, prevState) {
+  //   console.log('abcd', prevProps, this.props)
+  //   if (prevProps.loading !== this.props.loading || prevState.data !== this.state.data ||
+  //     prevProps.filtered !== this.props.filtered || prevProps.page !== this.props.page || 
+  //     prevProps.pages !== this.props.pages || prevProps.pageLimit !== this.props.pageLimit
+  //   ) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
   render() {
     console.log('table', this.props);
+    // this.props.data.length <= this.props.pageLimit ? this.props.data.length :98745 62156
 
     return <ReactTable
       manual

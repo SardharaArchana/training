@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
 import { Form, FormGroup, Label, Input, Button, Row, Col } from 'reactstrap';
-import FaLock from 'react-icons/lib/fa/lock';
+import { FaLock } from 'react-icons/fa';
 import axios from 'axios';
 
 import './signIn.css';
@@ -28,16 +28,16 @@ class SignIn extends Component {
         console.log('response:', response);
         if (response.data.status) {
           localStorage.setItem('userToken', response.data.token);
-          this.props.history.push({ pathname: '/admin', params: { role: 'admin' } });
+          this.setState({ email: '', password: '' })
+          this.props.history.push({ pathname: '/admin/dashboard', params: { role: 'admin' } });
         } else {
-          window.alert('eneter valid details')
+          window.alert('eneter valid details');
           this.props.history.push('/signin');
         }
       })
       .catch(error => {
         console.log('error:', error)
       })
-    this.setState({ email: '', password: '' })
   }
 
   render() {
